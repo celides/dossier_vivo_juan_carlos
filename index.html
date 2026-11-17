@@ -54,7 +54,7 @@
 
         /* HERO */
         header {
-            min-height: 70vh;
+            min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -157,8 +157,30 @@
         .expo-details h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
         .expo-details p { color: var(--text-muted); font-size: 0.9rem; }
 
+        /* SECCIÓN GALERÍA */
+        .gallery-invite-box {
+            text-align: center;
+            margin: 4rem auto;
+            max-width: 800px;
+            background: #111;
+            padding: 3rem 2rem;
+            border: 1px solid #333;
+            border-radius: 10px;
+        }
+        .gallery-invite-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .gallery-invite-text {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+        }
+
         /* BOTÓN ROCOCÓ */
-        .rococo-container { text-align: center; margin: 4rem 0; }
+        .rococo-container { text-align: center; }
         .btn-rococo {
             display: inline-block;
             padding: 1.5rem 4rem;
@@ -175,6 +197,7 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.6);
             transition: all 0.4s ease;
             position: relative;
+            cursor: pointer;
         }
         .btn-rococo::before, .btn-rococo::after {
             content: '❦';
@@ -238,6 +261,7 @@
             .bio-photo { border: 1px solid #000; }
             .expo-list li { border-bottom: 1px solid #ccc; }
             .credits { color: #000; border-top: 1px solid #000; }
+            .gallery-invite-box { border: 1px solid #000; background: #fff; }
         }
     </style>
 </head>
@@ -256,7 +280,6 @@
         
         <div class="top-actions">
             <button class="btn btn-solid" onclick="window.print()">📄 Descargar PDF</button>
-            <button class="btn" id="btn-all" data-text="Leer Todo" onclick="toggleRead('all', this)">🎤 Leer Todo</button>
         </div>
     </header>
 
@@ -264,13 +287,13 @@
     <section class="fade-in">
         <h2 class="section-title" id="title-sec1">Remembranza</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1', this)">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1', 'title-sec1', this)">🎤 Escuchar esta sección</button>
         </div>
         
         <div class="bio-container" id="sec-1">
-            <!-- INSTRUCCIÓN: Pega aquí el link de tu foto -->
+            <!-- FOTO DEL CURRÍCULUM -->
             <div class="bio-photo">
-                <img src="https://via.placeholder.com/300x350/151515/c9a063?text=Foto+Juan+Carlos" alt="Juan Carlos Pérez Martínez">
+                <img src="https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg" alt="Juan Carlos Pérez Martínez">
             </div>
             
             <div class="bio-text">
@@ -292,7 +315,7 @@
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
             <h2 class="section-title" id="title-sec2">¿Qué es la Metapareidolia Pictórica?</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2', this)">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2', 'title-sec2', this)">🎤 Escuchar esta sección</button>
             </div>
             
             <div id="sec-2">
@@ -313,7 +336,7 @@
     <section class="fade-in">
         <h2 class="section-title" id="title-sec3">El Metamanifiesto</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3', this)">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3', 'title-sec3', this)">🎤 Escuchar esta sección</button>
         </div>
 
         <div id="sec-3">
@@ -334,7 +357,7 @@
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
             <h2 class="section-title" id="title-sec4">Propuestas de Colaboración</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4', this)">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4', 'title-sec4', this)">🎤 Escuchar esta sección</button>
             </div>
 
             <div class="modular-grid" id="sec-4">
@@ -366,7 +389,7 @@
     <section class="fade-in">
         <h2 class="section-title" id="title-sec5">Trayectoria Expositiva</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', this)">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', 'title-sec5', this)">🎤 Escuchar esta sección</button>
         </div>
 
         <ul class="expo-list" id="sec-5">
@@ -427,12 +450,31 @@
                 </div>
             </li>
         </ul>
+    </section>
 
-        <!-- BOTÓN ROCOCÓ PARA LA GALERÍA -->
-        <div class="rococo-container">
-            <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
-                Galería de Arte Virtual
-            </a>
+    <!-- 6. GALERÍA DE ARTE -->
+    <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+            <h2 class="section-title" id="title-sec6">Galería de Arte Virtual</h2>
+            <div class="audio-controls">
+                <button class="btn-audio" id="btn-sec6" data-text="Escuchar esta sección" onclick="toggleRead('sec-6', 'title-sec6', this)">🎤 Escuchar esta sección</button>
+            </div>
+
+            <div id="sec-6">
+                <div class="gallery-invite-box">
+                    <h3 class="gallery-invite-title">¿Quieres ver cómo es una Metapareidolia en vivo?</h3>
+                    <p class="gallery-invite-text">
+                        No te quedes con la curiosidad. Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir en el caos. <strong>Accede a nuestra galería de arte virtual y conoce el arte que producimos.</strong> Explora las piezas, mira los detalles y descubre las formas que tu propia mente es capaz de revelar.
+                    </p>
+                    
+                    <!-- BOTÓN ROCOCÓ -->
+                    <div class="rococo-container">
+                        <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
+                            Entrar a la Galería
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -443,7 +485,7 @@
         </p>
         
         <!-- BOTÓN DE WHATSAPP -->
-        <a href="https://wa.me/524464044521" target="_blank" class="whatsapp-btn">
+        <a href="https://wa.me/524464044521?text=Hola%20Juan%20Carlos,%20vi%20tu%20propuesta%20para%20el%20MUCAL." target="_blank" class="whatsapp-btn">
             <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
             Contactar por WhatsApp
         </a>
@@ -466,10 +508,10 @@
             document.querySelectorAll('.fade-in').forEach((section) => { observer.observe(section); });
         });
 
-        // SÍNTESIS DE VOZ (CORREGIDA Y MEJORADA)
+        // SÍNTESIS DE VOZ (LEE TÍTULO Y TEXTO)
         let currentBtn = null;
 
-        function toggleRead(targetId, btn) {
+        function toggleRead(contentId, titleId, btn) {
             const synth = window.speechSynthesis;
             
             // Si ya está reproduciendo, detener
@@ -488,24 +530,16 @@
 
             let textToRead = "";
 
-            if (targetId === 'all') {
-                // Concatenar títulos y textos de todas las secciones
-                const titles = ['title-sec1', 'title-sec2', 'title-sec3', 'title-sec4', 'title-sec5'];
-                const contents = ['sec-1', 'sec-2', 'sec-3', 'sec-4', 'sec-5'];
-                
-                for (let i = 0; i < titles.length; i++) {
-                    textToRead += document.getElementById(titles[i]).innerText + ". ";
-                    textToRead += document.getElementById(contents[i]).innerText + ". ";
-                }
-            } else {
-                // Leer el título y el contenido de la sección específica
-                const titleId = 'title-' + targetId;
-                const titleElement = document.getElementById(titleId);
-                
-                if (titleElement) {
-                    textToRead += titleElement.innerText + ". ";
-                }
-                textToRead += document.getElementById(targetId).innerText;
+            // 1. Obtener el título
+            const titleElement = document.getElementById(titleId);
+            if (titleElement) {
+                textToRead += titleElement.innerText + ". ";
+            }
+
+            // 2. Obtener el contenido
+            const contentElement = document.getElementById(contentId);
+            if (contentElement) {
+                textToRead += contentElement.innerText;
             }
 
             // Limpiar texto (quitar emojis y saltos de línea excesivos)
