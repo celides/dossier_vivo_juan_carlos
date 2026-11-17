@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metapareidolia Pictórica | Presentación MUCAL</title>
-    <!-- Tipografía elegante para museo -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,11 +15,7 @@
             --font-sans: 'Inter', sans-serif;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
@@ -30,25 +25,26 @@
             overflow-x: hidden;
         }
 
-        /* HERO SECTION / CARTA DE PRESENTACIÓN */
+        /* HERO SECTION */
         header {
-            min-height: 90vh;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 4rem 2rem;
-            position: relative;
+            border-bottom: 1px solid #222;
         }
 
         .dedicatoria {
             font-family: var(--font-sans);
             font-size: 1rem;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--accent);
             text-transform: uppercase;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            line-height: 1.8;
         }
 
         header h1 {
@@ -73,19 +69,15 @@
 
         .tagline {
             font-family: var(--font-serif);
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-style: italic;
             color: var(--accent);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             max-width: 800px;
         }
 
         /* SECCIONES GENERALES */
-        section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
 
         .section-title {
             font-family: var(--font-serif);
@@ -96,10 +88,45 @@
             color: var(--accent);
         }
 
-        /* GALERÍA MAGISTRAL (Placeholder para imágenes reales) */
+        /* TEXTO MODO FÉNIX */
+        .fenix-text {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .fenix-text strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .fenix-data {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-left: 2px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        /* GALERÍA DE OBRAS */
+        .gallery-intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .gallery-intro strong { color: var(--accent); }
+
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
@@ -110,6 +137,9 @@
             overflow: hidden;
             background-color: #151515;
             border: 1px solid #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .gallery-item img {
@@ -125,6 +155,14 @@
             filter: grayscale(0%) brightness(1);
         }
 
+        .gallery-item .placeholder-text {
+            position: absolute;
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: #444;
+            z-index: 1;
+        }
+
         .gallery-caption {
             position: absolute;
             bottom: 0;
@@ -136,13 +174,12 @@
             font-size: 1.2rem;
             opacity: 0;
             transition: opacity 0.5s ease;
+            z-index: 2;
         }
 
-        .gallery-item:hover .gallery-caption {
-            opacity: 1;
-        }
+        .gallery-item:hover .gallery-caption { opacity: 1; }
 
-        /* LOS 4 NIVELES DE LA EXPERIENCIA */
+        /* LOS 4 NIVELES */
         .levels-container {
             display: flex;
             flex-direction: column;
@@ -158,10 +195,7 @@
             transition: transform 0.3s ease, background 0.3s ease;
         }
 
-        .level-card:hover {
-            transform: translateX(10px);
-            background: #151515;
-        }
+        .level-card:hover { transform: translateX(10px); background: #151515; }
 
         .level-number {
             font-family: var(--font-serif);
@@ -179,18 +213,11 @@
             color: var(--text-main);
         }
 
-        .level-card p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
+        .level-card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 1rem; }
 
-        .highlight-text {
-            color: var(--accent);
-            font-weight: 600;
-        }
+        .highlight-text { color: var(--accent); font-weight: 600; }
 
-        /* FOOTER */
+        /* FOOTER & BOTONES */
         footer {
             text-align: center;
             padding: 4rem 2rem;
@@ -213,92 +240,130 @@
             margin-top: 2rem;
         }
 
-        .btn:hover {
-            background: var(--accent);
-            color: var(--bg-color);
-        }
+        .btn:hover { background: var(--accent); color: var(--bg-color); }
 
-        /* ANIMACIONES */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- HERO / PRESENTACIÓN -->
+    <!-- HERO / PRESENTACIÓN FORMAL -->
     <header>
-        <div class="dedicatoria">Presentación exclusiva para la Lic. Priscila Contreras Rivera<br>Directora del Museo del Calendario (MUCAL)</div>
+        <div class="dedicatoria">
+            Propuesta de colaboración para:<br>
+            <strong>Directora: Lic. Priscila Contreras Rivera</strong><br>
+            Museo del Calendario (MUCAL)
+        </div>
         <h1>Metapareidolia Pictórica</h1>
         <h2>Juan Carlos Pérez Martínez</h2>
         <p class="tagline">La metáfora errónea del inconsciente</p>
     </header>
 
-    <!-- LA PINTURA / GALERÍA -->
+    <!-- ¿QUÉ ES LA METAPAREIDOLIA? (MODO FÉNIX) -->
     <section class="fade-in">
-        <h2 class="section-title">La Pintura</h2>
-        <p style="text-align: center; color: var(--text-muted); max-width: 800px; margin: 0 auto 3rem auto;">
-            El abstraccionismo proyectivo no busca representar el mundo exterior, sino activar el mecanismo más antiguo de la cognición humana: la pareidolia. A través del caos controlado, la pintura se convierte en un espejo donde el espectador proyecta sus propios paisajes, rostros y recuerdos.
+        <h2 class="section-title">¿Qué es la Metapareidolia Pictórica?</h2>
+        
+        <p class="fenix-text">
+            <strong>La escena:</strong> Estás frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que te observa. No está ahí, pero tu mente acaba de crearla. Y de repente, esa mancha te dice algo que no sabías que traías dentro.
         </p>
         
+        <div class="fenix-data">
+            <strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada a lo largo de 12 años que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como un disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y transformar al espectador de observador pasivo en testigo de su propio inconsciente.
+        </div>
+
+        <p class="fenix-text">
+            <strong>La puerta abierta:</strong> Esta técnica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.
+        </p>
+    </section>
+
+    <!-- ¿QUÉ ES EL METAMANIFIESTO? (MODO FÉNIX) -->
+    <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+            <h2 class="section-title">El Metamanifiesto</h2>
+            
+            <p class="fenix-text">
+                <strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error, se convirtió en método. Doce años después, ese método es una teoría completa que ha sido documentada y blindada.
+            </p>
+
+            <div class="fenix-data">
+                <strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona (Modo Fénix) del origen de la técnica. El Libro Segundo es el aparato científico: un rigoroso compendio de fichas con citas neurocientíficas verificadas, redes neuronales (DAN, DMN), el área fusiforme facial, videos y cursos. Es la base teórica de la obra.
+            </div>
+
+            <p class="fenix-text">
+                <strong>La puerta abierta:</strong> Este preestreno en el MUCAL es la presentación oficial (no oficial) del Metamanifiesto al mundo. Es el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.
+            </p>
+        </div>
+    </section>
+
+    <!-- GALERÍA DE TRABAJOS ANTERIORES -->
+    <section class="fade-in">
+        <h2 class="section-title">Trabajos Anteriores</h2>
+        
+        <div class="gallery-intro">
+            <p>A continuación, una muestra de la obra y colecciones que he desarrollado. <strong>Para esta exposición en el MUCAL, pretendemos crear nuevas obras</strong> diseñadas específicamente para el espacio y la experiencia del visitante.</p>
+        </div>
+        
         <div class="gallery-grid">
-            <!-- REEMPLAZA EL SRC DE ESTAS IMÁGENES CON LAS URLs DE TUS OBRAS REALES -->
-            <!-- He puesto imágenes de muestra de Unsplash para que veas el efecto -->
+            <!-- INSTRUCCIÓN: Reemplaza el "src" con la URL de tus imágenes -->
+            
+            <!-- OBRA 1 -->
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1000&auto=format&fit=crop" alt="Obra Metapareidolia 1">
-                <div class="gallery-caption">Serie: El Espejo Proyectivo</div>
+                <div class="placeholder-text">Obra Anterior 01</div>
+                <img src="" alt="Metáfora Errónica 1" onerror="this.style.display='none'">
+                <div class="gallery-caption">Serie: La Metáfora Errónica</div>
             </div>
+            
+            <!-- OBRA 2 -->
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1000&auto=format&fit=crop" alt="Obra Metapareidolia 2">
-                <div class="gallery-caption">Serie: Caos Controlado</div>
+                <div class="placeholder-text">Obra Anterior 02</div>
+                <img src="" alt="Metáfora Errónica 2" onerror="this.style.display='none'">
+                <div class="gallery-caption">Serie: La Metáfora Errónica</div>
             </div>
+            
+            <!-- OBRA 3 -->
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Obra Metapareidolia 3">
+                <div class="placeholder-text">Obra Anterior 03</div>
+                <img src="" alt="Metáfora Errónica 3" onerror="this.style.display='none'">
                 <div class="gallery-caption">Serie: La Metáfora Errónica</div>
             </div>
         </div>
 
         <div style="text-align: center;">
-            <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn">Explorar la Galería Completa y Cotizaciones</a>
+            <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn">Ver Catálogo Completo</a>
         </div>
     </section>
 
     <!-- LOS 4 NIVELES -->
     <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 class="section-title">La Experiencia en 4 Niveles</h2>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <h2 class="section-title">¿En qué consiste la Experiencia?</h2>
             
             <div class="levels-container">
                 
-                <!-- NIVEL 1 -->
                 <div class="level-card">
                     <div class="level-number">01</div>
                     <h3>Exposición Pictórica</h3>
                     <p>El preestreno de la serie original en soporte rígido y marco de madera. La obra está diseñada para romper la contemplación pasiva y convertirse en un dispositivo de interacción neuro-visual.</p>
                 </div>
 
-                <!-- NIVEL 2 -->
                 <div class="level-card">
                     <div class="level-number">02</div>
                     <h3>El Metamanifiesto (Digital o Físico)</h3>
                     <p>La base teórica del proyecto. <span class="highlight-text">Buscamos colaboración del MUCAL</span> para habilitar una estación (computadora o tablet) donde el visitante pueda explorar el corpus científico, las fichas y los libros que componen el Metamanifiesto.</p>
                 </div>
 
-                <!-- NIVEL 3 -->
                 <div class="level-card">
                     <div class="level-number">03</div>
                     <h3>Inmersión Sonora</h3>
                     <p>El Metamanifiesto cobra vida a través de una pieza de audio diseñada para la sala. Una narración continua leída con una base musical suave y neuroacústica (frecuencias Theta y Solfeggio) que induce a la relajación y a la creatividad.</p>
                 </div>
 
-                <!-- NIVEL 4 -->
                 <div class="level-card">
                     <div class="level-number">04</div>
                     <h3>El Archivo Vivo (WhatsApp)</h3>
@@ -319,7 +384,6 @@
         <p>Querétaro, México.</p>
     </footer>
 
-    <!-- JS PARA ANIMACIONES -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const observer = new IntersectionObserver((entries) => {
