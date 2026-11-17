@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metapareidolia Pictórica | Propuesta MUCAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0a0a0a;
@@ -123,9 +123,7 @@
             object-fit: cover;
             filter: grayscale(20%);
         }
-        .bio-text {
-            flex: 1;
-        }
+        .bio-text { flex: 1; }
         @media (max-width: 768px) {
             .bio-container { flex-direction: column; }
             .bio-photo { flex: 0 0 auto; width: 100%; height: auto; aspect-ratio: 4/5; }
@@ -153,56 +151,93 @@
         .mod-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; display: block; }
 
         /* EXPOSICIONES */
-        .expo-list {
-            list-style: none;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .expo-list li {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #222;
-            display: flex;
-            gap: 2rem;
-            align-items: baseline;
-        }
-        .expo-year {
+        .expo-list { list-style: none; max-width: 800px; margin: 0 auto; }
+        .expo-list li { padding: 1.5rem 0; border-bottom: 1px solid #222; display: flex; gap: 2rem; align-items: baseline; }
+        .expo-year { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); flex: 0 0 80px; }
+        .expo-details h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .expo-details p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* BOTÓN ROCOCÓ */
+        .rococo-container { text-align: center; margin: 4rem 0; }
+        .btn-rococo {
+            display: inline-block;
+            padding: 1.5rem 4rem;
             font-family: var(--font-serif);
-            font-size: 1.5rem;
-            color: var(--accent);
-            flex: 0 0 80px;
+            font-size: 1.8rem;
+            color: #111;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+            background: linear-gradient(135deg, #c9a063 0%, #fceabb 50%, #c9a063 100%);
+            border: 3px double #111;
+            outline: 2px solid var(--accent);
+            outline-offset: -8px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            transition: all 0.4s ease;
+            position: relative;
         }
-        .expo-details h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
+        .btn-rococo::before, .btn-rococo::after {
+            content: '❦';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #111;
         }
-        .expo-details p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        .btn-rococo::before { left: 15px; }
+        .btn-rococo::after { right: 15px; }
+        .btn-rococo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(201, 160, 99, 0.4);
+            background: linear-gradient(135deg, #fceabb 0%, #c9a063 50%, #fceabb 100%);
         }
 
-        /* BOTONES Y FOOTER */
+        /* BOTONES GENERALES */
         .btn { display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer; background: transparent; font-family: var(--font-sans); }
         .btn:hover { background: var(--accent); color: var(--bg-color); }
         .btn-solid { background: var(--accent); color: var(--bg-color); border: 1px solid var(--accent); }
         .btn-solid:hover { background: transparent; color: var(--accent); }
 
+        /* FOOTER */
         footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid #222; color: var(--text-muted); font-size: 0.9rem; background: #050505; }
-        .qr-container { margin: 2rem auto; background: #fff; padding: 10px; display: inline-block; border-radius: 8px; }
-        .qr-container img { display: block; width: 120px; height: 120px; }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 2rem 0;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .whatsapp-btn:hover { transform: scale(1.05); background-color: #128C7E; }
+        .whatsapp-btn svg { width: 24px; height: 24px; fill: #fff; }
+
+        .credits {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #222;
+            padding-top: 2rem;
+        }
+        .credits strong { color: var(--accent); font-weight: 600; }
 
         /* ESTILOS PARA IMPRESIÓN Y PDF */
         @media print {
             body { background: #fff; color: #000; }
             header, section, footer { padding: 1rem 0; border: none; background: #fff !important; max-width: 100%; }
-            .audio-controls, .top-actions, .btn { display: none !important; }
+            .audio-controls, .top-actions, .btn, .whatsapp-btn, .btn-rococo { display: none !important; }
             .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year { color: #000 !important; }
             .fenix-text, .fenix-data, .mod-card p, .expo-details p { color: #333 !important; }
             .mod-card { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
             .bio-photo { border: 1px solid #000; }
-            .qr-container { display: block; text-align: center; margin: 2rem auto; border: 1px solid #000; }
-            .qr-container img { width: 150px; height: 150px; }
             .expo-list li { border-bottom: 1px solid #ccc; }
+            .credits { color: #000; border-top: 1px solid #000; }
         }
     </style>
 </head>
@@ -221,21 +256,21 @@
         
         <div class="top-actions">
             <button class="btn btn-solid" onclick="window.print()">📄 Descargar PDF</button>
-            <button class="btn" id="btn-all" data-text="Leer Todo" onclick="toggleRead('all')">🎤 Leer Todo</button>
+            <button class="btn" id="btn-all" data-text="Leer Todo" onclick="toggleRead('all', this)">🎤 Leer Todo</button>
         </div>
     </header>
 
     <!-- 1. REMEMBRANZA -->
     <section class="fade-in">
-        <h2 class="section-title">Remembranza</h2>
+        <h2 class="section-title" id="title-sec1">Remembranza</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1')">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1', this)">🎤 Escuchar esta sección</button>
         </div>
         
         <div class="bio-container" id="sec-1">
-            <!-- INSTRUCCIÓN: Reemplaza el src con el link de tu foto -->
+            <!-- INSTRUCCIÓN: Pega aquí el link de tu foto -->
             <div class="bio-photo">
-                <img src="https://via.placeholder.com/300x350/151515/c9a063?text=Tu+Foto+Aquí" alt="Juan Carlos Pérez Martínez">
+                <img src="https://via.placeholder.com/300x350/151515/c9a063?text=Foto+Juan+Carlos" alt="Juan Carlos Pérez Martínez">
             </div>
             
             <div class="bio-text">
@@ -255,9 +290,9 @@
     <!-- 2. LA METAPAREIDOLIA -->
     <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title">¿Qué es la Metapareidolia Pictórica?</h2>
+            <h2 class="section-title" id="title-sec2">¿Qué es la Metapareidolia Pictórica?</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2')">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2', this)">🎤 Escuchar esta sección</button>
             </div>
             
             <div id="sec-2">
@@ -276,9 +311,9 @@
 
     <!-- 3. EL METAMANIFIESTO -->
     <section class="fade-in">
-        <h2 class="section-title">El Metamanifiesto</h2>
+        <h2 class="section-title" id="title-sec3">El Metamanifiesto</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3')">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3', this)">🎤 Escuchar esta sección</button>
         </div>
 
         <div id="sec-3">
@@ -297,9 +332,9 @@
     <!-- 4. PROPUESTAS MODULARES -->
     <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title">Propuestas de Colaboración</h2>
+            <h2 class="section-title" id="title-sec4">Propuestas de Colaboración</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4')">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4', this)">🎤 Escuchar esta sección</button>
             </div>
 
             <div class="modular-grid" id="sec-4">
@@ -329,9 +364,9 @@
 
     <!-- 5. EXPOSICIONES -->
     <section class="fade-in">
-        <h2 class="section-title">Trayectoria Expositiva</h2>
+        <h2 class="section-title" id="title-sec5">Trayectoria Expositiva</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5')">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', this)">🎤 Escuchar esta sección</button>
         </div>
 
         <ul class="expo-list" id="sec-5">
@@ -392,6 +427,13 @@
                 </div>
             </li>
         </ul>
+
+        <!-- BOTÓN ROCOCÓ PARA LA GALERÍA -->
+        <div class="rococo-container">
+            <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
+                Galería de Arte Virtual
+            </a>
+        </div>
     </section>
 
     <!-- FOOTER -->
@@ -400,14 +442,17 @@
             "No es la obra la que te mira: es tu inconsciente el que aparece."
         </p>
         
-        <div class="qr-container">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://metapareidolia-web.vercel.app/" alt="QR Galería Vercel">
-        </div>
-        <p style="font-size: 0.8rem; margin-bottom: 2rem;">Escanea para ver el catálogo completo</p>
+        <!-- BOTÓN DE WHATSAPP -->
+        <a href="https://wa.me/524464044521" target="_blank" class="whatsapp-btn">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Contactar por WhatsApp
+        </a>
 
-        <p>© 2026 Juan Carlos Pérez Martínez.</p>
-        <p>Propuesta de colaboración para el Museo del Calendario (MUCAL).</p>
-        <p>Querétaro, México.</p>
+        <div class="credits">
+            <p>Diseño y desarrollo web hecho por <strong>Stack Labs</strong></p>
+            <p>Ingeniero en Desarrollo Full Stack: Juan Carlos Pérez Martínez</p>
+            <p>Teléfono: 446 404 45 21 | Querétaro, México</p>
+        </div>
     </footer>
 
     <script>
@@ -421,42 +466,49 @@
             document.querySelectorAll('.fade-in').forEach((section) => { observer.observe(section); });
         });
 
-        // SÍNTESIS DE VOZ CORREGIDA
+        // SÍNTESIS DE VOZ (CORREGIDA Y MEJORADA)
         let currentBtn = null;
-        let isReading = false;
 
-        function toggleRead(sectionId) {
+        function toggleRead(targetId, btn) {
             const synth = window.speechSynthesis;
-            const btn = event.currentTarget;
             
-            // Si ya está leyendo, lo detenemos todo
+            // Si ya está reproduciendo, detener
             if (synth.speaking) {
                 synth.cancel();
-                isReading = false;
                 if (currentBtn) {
                     currentBtn.classList.remove('playing');
                     currentBtn.innerHTML = '🎤 ' + currentBtn.getAttribute('data-text');
                 }
-                // Si el botón presionado es el mismo que estaba leyendo, solo salimos
+                // Si el botón presionado es el mismo que estaba sonando, solo detenerse y salir
                 if (currentBtn === btn) {
                     currentBtn = null;
                     return;
                 }
             }
 
-            // Preparar el texto
             let textToRead = "";
-            if (sectionId === 'all') {
-                // Concatenar todos los textos de las secciones
-                const sections = ['sec-1', 'sec-2', 'sec-3', 'sec-4', 'sec-5'];
-                sections.forEach(id => {
-                    textToRead += document.getElementById(id).innerText + " ";
-                });
+
+            if (targetId === 'all') {
+                // Concatenar títulos y textos de todas las secciones
+                const titles = ['title-sec1', 'title-sec2', 'title-sec3', 'title-sec4', 'title-sec5'];
+                const contents = ['sec-1', 'sec-2', 'sec-3', 'sec-4', 'sec-5'];
+                
+                for (let i = 0; i < titles.length; i++) {
+                    textToRead += document.getElementById(titles[i]).innerText + ". ";
+                    textToRead += document.getElementById(contents[i]).innerText + ". ";
+                }
             } else {
-                textToRead = document.getElementById(sectionId).innerText;
+                // Leer el título y el contenido de la sección específica
+                const titleId = 'title-' + targetId;
+                const titleElement = document.getElementById(titleId);
+                
+                if (titleElement) {
+                    textToRead += titleElement.innerText + ". ";
+                }
+                textToRead += document.getElementById(targetId).innerText;
             }
 
-            // Limpiar texto
+            // Limpiar texto (quitar emojis y saltos de línea excesivos)
             textToRead = textToRead.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
             textToRead = textToRead.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -469,20 +521,17 @@
 
             utterance.onstart = () => {
                 currentBtn = btn;
-                isReading = true;
                 btn.classList.add('playing');
                 btn.innerHTML = '⏹ Detener';
             };
 
             utterance.onend = () => {
-                isReading = false;
                 btn.classList.remove('playing');
                 btn.innerHTML = '🎤 ' + btn.getAttribute('data-text');
                 currentBtn = null;
             };
 
             utterance.onerror = () => {
-                isReading = false;
                 btn.classList.remove('playing');
                 btn.innerHTML = '🎤 ' + btn.getAttribute('data-text');
                 currentBtn = null;
