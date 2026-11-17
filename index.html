@@ -78,7 +78,7 @@
 
         header h1 {
             font-family: var(--font-serif);
-            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
             font-weight: 300;
             letter-spacing: 2px;
             margin-bottom: 1rem;
@@ -88,17 +88,17 @@
 
         header h2 { font-family: var(--font-sans); font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; color: var(--text-muted); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2rem; }
 
-        .tagline { font-family: var(--font-serif); font-size: 2rem; font-style: italic; color: var(--accent); margin-bottom: 2rem; max-width: 800px; }
+        .tagline { font-family: var(--font-serif); font-size: clamp(1.5rem, 4vw, 2rem); font-style: italic; color: var(--accent); margin-bottom: 2rem; max-width: 800px; }
 
         .top-actions { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
 
         /* SECCIONES */
         section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
-        .section-title { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; text-align: center; color: var(--accent); }
+        .section-title { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 300; margin-bottom: 1rem; text-align: center; color: var(--accent); }
 
         .fenix-text { font-size: 1.1rem; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; line-height: 1.8; }
         .fenix-text strong { color: var(--accent); font-weight: 600; }
-        .fenix-data { color: var(--text-muted); font-size: 0.95rem; border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; }
+        .fenix-data { color: var(--text-muted); font-size: 0.95rem; border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; text-align: justify; }
 
         /* SECCIÓN REMEMBRANZA */
         .bio-container {
@@ -124,10 +124,6 @@
             filter: grayscale(20%);
         }
         .bio-text { flex: 1; }
-        @media (max-width: 768px) {
-            .bio-container { flex-direction: column; }
-            .bio-photo { flex: 0 0 auto; width: 100%; height: auto; aspect-ratio: 4/5; }
-        }
 
         /* PROPUESTAS MODULARES */
         .modular-grid {
@@ -147,20 +143,13 @@
 
         .mod-card:hover { border-top-color: var(--accent); background: #151515; transform: translateY(-5px); }
         .mod-card h3 { font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 1rem; color: var(--text-main); }
-        .mod-card p { color: var(--text-muted); font-size: 0.95rem; }
+        .mod-card p { color: var(--text-muted); font-size: 0.95rem; text-align: justify; }
         .mod-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; display: block; }
-
-        /* EXPOSICIONES */
-        .expo-list { list-style: none; max-width: 800px; margin: 0 auto; }
-        .expo-list li { padding: 1.5rem 0; border-bottom: 1px solid #222; display: flex; gap: 2rem; align-items: baseline; }
-        .expo-year { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); flex: 0 0 80px; }
-        .expo-details h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
-        .expo-details p { color: var(--text-muted); font-size: 0.9rem; }
 
         /* SECCIÓN GALERÍA */
         .gallery-invite-box {
             text-align: center;
-            margin: 4rem auto;
+            margin: 2rem auto;
             max-width: 800px;
             background: #111;
             padding: 3rem 2rem;
@@ -169,7 +158,7 @@
         }
         .gallery-invite-title {
             font-family: var(--font-serif);
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 5vw, 2rem);
             color: var(--accent);
             margin-bottom: 1rem;
         }
@@ -177,6 +166,7 @@
             font-size: 1.1rem;
             margin-bottom: 2.5rem;
             color: var(--text-main);
+            text-align: justify;
         }
 
         /* BOTÓN ROCOCÓ */
@@ -198,6 +188,7 @@
             transition: all 0.4s ease;
             position: relative;
             cursor: pointer;
+            max-width: 100%; /* Asegura que no se desborde */
         }
         .btn-rococo::before, .btn-rococo::after {
             content: '❦';
@@ -214,6 +205,13 @@
             box-shadow: 0 20px 40px rgba(201, 160, 99, 0.4);
             background: linear-gradient(135deg, #fceabb 0%, #c9a063 50%, #fceabb 100%);
         }
+
+        /* EXPOSICIONES */
+        .expo-list { list-style: none; max-width: 800px; margin: 0 auto; }
+        .expo-list li { padding: 1.5rem 0; border-bottom: 1px solid #222; display: flex; gap: 2rem; align-items: baseline; }
+        .expo-year { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); flex: 0 0 80px; }
+        .expo-details h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .expo-details p { color: var(--text-muted); font-size: 0.9rem; text-align: justify; }
 
         /* BOTONES GENERALES */
         .btn { display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer; background: transparent; font-family: var(--font-sans); }
@@ -249,6 +247,31 @@
             padding-top: 2rem;
         }
         .credits strong { color: var(--accent); font-weight: 600; }
+
+        /* ══════════════════════════════════════════════════ */
+        /* MEDIA QUERIES PARA RESPONSIVE (TABLETS Y MÓVILES) */
+        /* ══════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .bio-container { flex-direction: column; text-align: center; }
+            .bio-photo { flex: 0 0 auto; width: 100%; max-width: 300px; height: auto; aspect-ratio: 4/5; margin: 0 auto; }
+            .fenix-text, .fenix-data, .gallery-invite-text, .mod-card p, .expo-details p { text-align: justify; } /* Asegurar justificado en móvil */
+            
+            /* Ajustes del Botón Rococó en móvil */
+            .btn-rococo {
+                font-size: 1.3rem;
+                padding: 1.2rem 1.5rem;
+                letter-spacing: 1px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .btn-rococo::before, .btn-rococo::after {
+                display: none; /* Ocultar adornos para que no se empimen en pantallas pequeñas */
+            }
+            
+            .gallery-invite-box { padding: 2rem 1.5rem; }
+            .expo-list li { flex-direction: column; gap: 0.5rem; }
+            .expo-year { flex: none; }
+        }
 
         /* ESTILOS PARA IMPRESIÓN Y PDF */
         @media print {
@@ -291,7 +314,7 @@
         </div>
         
         <div class="bio-container" id="sec-1">
-            <!-- FOTO DEL CURRÍCULUM -->
+            <!-- FOTO DEL CURRÍCULUM (Reemplazar si es necesario) -->
             <div class="bio-photo">
                 <img src="https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg" alt="Juan Carlos Pérez Martínez">
             </div>
@@ -385,96 +408,98 @@
         </div>
     </section>
 
-    <!-- 5. EXPOSICIONES -->
+    <!-- 5. GALERÍA DE ARTE (Movida justo después de las propuestas) -->
     <section class="fade-in">
-        <h2 class="section-title" id="title-sec5">Trayectoria Expositiva</h2>
+        <h2 class="section-title" id="title-sec5">Galería de Arte Virtual</h2>
         <div class="audio-controls">
             <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', 'title-sec5', this)">🎤 Escuchar esta sección</button>
         </div>
 
-        <ul class="expo-list" id="sec-5">
-            <li>
-                <div class="expo-year">2017</div>
-                <div class="expo-details">
-                    <h4>“Ángeles del inconsciente”</h4>
-                    <p>Exposición individual. Centro Cultural El Llano, Aguascalientes.</p>
+        <div id="sec-5">
+            <div class="gallery-invite-box">
+                <h3 class="gallery-invite-title">¿Quieres ver cómo es una Metapareidolia en vivo?</h3>
+                <p class="gallery-invite-text">
+                    No te quedes con la curiosidad. Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir en el caos. <strong>Accede a nuestra galería de arte virtual y conoce el arte que producimos.</strong> Ahí mismo podrás explorar nuestra colección actual, titulada <em>«La metáfora errónea del inconsciente»</em>. 
+                    <br><br>
+                    Sin embargo, para esta exposición en el MUCAL, <strong>pretendemos crear obras nuevas</strong> diseñadas específicamente para su espacio, elevando la experiencia que estás a punto de ver.
+                </p>
+                
+                <!-- BOTÓN ROCOCÓ -->
+                <div class="rococo-container">
+                    <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
+                        Entrar a la Galería
+                    </a>
                 </div>
-            </li>
-            <li>
-                <div class="expo-year">2017</div>
-                <div class="expo-details">
-                    <h4>“Vorágine” (Dioses de la Pareidolia)</h4>
-                    <p>Exposición colectiva. Galería de la Ciudad, Casa de la Cultura Víctor Sandoval, Aguascalientes.</p>
-                </div>
-            </li>
-            <li>
-                <div class="expo-year">2016</div>
-                <div class="expo-details">
-                    <h4>“Ángeles del inconsciente” (Caja de Inmersión)</h4>
-                    <p>Exposición individual en paralelo a la exposición de Jannis Kounellis. MECA, Aguascalientes.</p>
-                </div>
-            </li>
-            <li>
-                <div class="expo-year">2015</div>
-                <div class="expo-details">
-                    <h4>“Etnias”</h4>
-                    <p>Exposición individual de fotografía en paralelo a la exposición de Leonardo da Vinci. Museo Descubre, Aguascalientes.</p>
-                </div>
-            </li>
-            <li>
-                <div class="expo-year">2015</div>
-                <div class="expo-details">
-                    <h4>“Etnias”</h4>
-                    <p>Casa de la Cultura en Pabellón de Arteaga y Escuela de Danza George Berard, Aguascalientes.</p>
-                </div>
-            </li>
-            <li>
-                <div class="expo-year">2015</div>
-                <div class="expo-details">
-                    <h4>“La ilegalidad de la ilegalidad”</h4>
-                    <p>Instalación. Bar Umma Gumma, Aguascalientes.</p>
-                </div>
-            </li>
-            <li>
-                <div class="expo-year">2014</div>
-                <div class="expo-details">
-                    <h4>“El Nacimiento”</h4>
-                    <p>Escultura. Dame Lata Con Tu Arte 2013, Aguascalientes.</p>
-                </div>
-            </li>
-            <li>
-                <div class="expo-year">2017</div>
-                <div class="expo-details">
-                    <h4>Museo Espacio</h4>
-                    <p>Participación en exposición de cartel. Aguascalientes.</p>
-                </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </section>
 
-    <!-- 6. GALERÍA DE ARTE -->
+    <!-- 6. EXPOSICIONES -->
     <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec6">Galería de Arte Virtual</h2>
+            <h2 class="section-title" id="title-sec6">Trayectoria Expositiva</h2>
             <div class="audio-controls">
                 <button class="btn-audio" id="btn-sec6" data-text="Escuchar esta sección" onclick="toggleRead('sec-6', 'title-sec6', this)">🎤 Escuchar esta sección</button>
             </div>
 
-            <div id="sec-6">
-                <div class="gallery-invite-box">
-                    <h3 class="gallery-invite-title">¿Quieres ver cómo es una Metapareidolia en vivo?</h3>
-                    <p class="gallery-invite-text">
-                        No te quedes con la curiosidad. Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir en el caos. <strong>Accede a nuestra galería de arte virtual y conoce el arte que producimos.</strong> Explora las piezas, mira los detalles y descubre las formas que tu propia mente es capaz de revelar.
-                    </p>
-                    
-                    <!-- BOTÓN ROCOCÓ -->
-                    <div class="rococo-container">
-                        <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
-                            Entrar a la Galería
-                        </a>
+            <ul class="expo-list" id="sec-6">
+                <li>
+                    <div class="expo-year">2017</div>
+                    <div class="expo-details">
+                        <h4>“Ángeles del inconsciente”</h4>
+                        <p>Exposición individual. Centro Cultural El Llano, Aguascalientes.</p>
                     </div>
-                </div>
-            </div>
+                </li>
+                <li>
+                    <div class="expo-year">2017</div>
+                    <div class="expo-details">
+                        <h4>“Vorágine” (Dioses de la Pareidolia)</h4>
+                        <p>Exposición colectiva. Galería de la Ciudad, Casa de la Cultura Víctor Sandoval, Aguascalientes.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="expo-year">2016</div>
+                    <div class="expo-details">
+                        <h4>“Ángeles del inconsciente” (Caja de Inmersión)</h4>
+                        <p>Exposición individual en paralelo a la exposición de Jannis Kounellis. MECA, Aguascalientes.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="expo-year">2015</div>
+                    <div class="expo-details">
+                        <h4>“Etnias”</h4>
+                        <p>Exposición individual de fotografía en paralelo a la exposición de Leonardo da Vinci. Museo Descubre, Aguascalientes.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="expo-year">2015</div>
+                    <div class="expo-details">
+                        <h4>“Etnias”</h4>
+                        <p>Casa de la Cultura en Pabellón de Arteaga y Escuela de Danza George Berard, Aguascalientes.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="expo-year">2015</div>
+                    <div class="expo-details">
+                        <h4>“La ilegalidad de la ilegalidad”</h4>
+                        <p>Instalación. Bar Umma Gumma, Aguascalientes.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="expo-year">2014</div>
+                    <div class="expo-details">
+                        <h4>“El Nacimiento”</h4>
+                        <p>Escultura. Dame Lata Con Tu Arte 2013, Aguascalientes.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="expo-year">2017</div>
+                    <div class="expo-details">
+                        <h4>Museo Espacio</h4>
+                        <p>Participación en exposición de cartel. Aguascalientes.</p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </section>
 
@@ -514,14 +539,12 @@
         function toggleRead(contentId, titleId, btn) {
             const synth = window.speechSynthesis;
             
-            // Si ya está reproduciendo, detener
             if (synth.speaking) {
                 synth.cancel();
                 if (currentBtn) {
                     currentBtn.classList.remove('playing');
                     currentBtn.innerHTML = '🎤 ' + currentBtn.getAttribute('data-text');
                 }
-                // Si el botón presionado es el mismo que estaba sonando, solo detenerse y salir
                 if (currentBtn === btn) {
                     currentBtn = null;
                     return;
@@ -530,19 +553,16 @@
 
             let textToRead = "";
 
-            // 1. Obtener el título
             const titleElement = document.getElementById(titleId);
             if (titleElement) {
                 textToRead += titleElement.innerText + ". ";
             }
 
-            // 2. Obtener el contenido
             const contentElement = document.getElementById(contentId);
             if (contentElement) {
                 textToRead += contentElement.innerText;
             }
 
-            // Limpiar texto (quitar emojis y saltos de línea excesivos)
             textToRead = textToRead.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
             textToRead = textToRead.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
 
