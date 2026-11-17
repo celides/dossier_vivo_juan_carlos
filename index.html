@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metapareidolia Pictórica | Preestreno MUCAL</title>
+    <!-- Tipografía elegante para museo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --accent: #c9a063; /* Tono dorado museístico */
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HERO SECTION */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        header h2 {
+            font-family: var(--font-sans);
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .tagline {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        /* SECCIONES GENERALES */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        .concept-text {
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+            line-height: 1.8;
+        }
+
+        /* EXPERIENCIA (3 PASOS) */
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .exp-card {
+            background: #111;
+            padding: 3rem 2rem;
+            border: 1px solid #222;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .exp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .exp-card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .exp-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* OBRAS (WORK IN PROGRESS) */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .work-placeholder {
+            aspect-ratio: 4/5;
+            background: #151515;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed #333;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .work-placeholder span {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .work-placeholder small {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #555;
+        }
+
+        /* METAMANIFIESTO & FOOTER */
+        .manifesto-section {
+            text-align: center;
+            background: #0f0f0f;
+            padding: 6rem 2rem;
+            border-top: 1px solid #222;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid #222;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            margin: 2rem auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.8rem;
+            border-radius: 8px;
+        }
+
+        /* ANIMACIONES SCROLL */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <header>
+        <h1>Metapareidolia Pictórica</h1>
+        <h2>Preestreno MUCAL</h2>
+        <p class="tagline">La metáfora errónea del inconsciente</p>
+        <div style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 2px;">
+            JUAN CARLOS PÉREZ MARTÍNEZ
+        </div>
+    </header>
+
+    <!-- CONCEPTO -->
+    <section class="fade-in">
+        <h2 class="section-title">El Espejo Proyectivo</h2>
+        <div class="concept-text">
+            <p>El inconsciente nunca se entiende tal como es. Cuando soñamos o cuando vemos una pintura, nuestra mente traduce las manchas y el caos en formas que creemos reconocer. Pero esa traducción siempre es una <strong>metáfora errónea</strong>.</p>
+            <br>
+            <p>La Metapareidolia Pictórica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. No es la obra la que te mira: es tu inconsciente el que aparece.</p>
+        </div>
+    </section>
+
+    <!-- EXPERIENCIA -->
+    <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title">La Experiencia</h2>
+            <div class="experience-grid">
+                
+                <div class="exp-card">
+                    <h3>El Umbral</h3>
+                    <p>En promedio, un visitante de museo mira una obra durante 27 segundos. Aquí te proponemos permanecer 120. Una estación inicial invita a mirar sin buscar, a dejar que las formas aparezcan antes de nombrarlas.</p>
+                </div>
+
+                <div class="exp-card">
+                    <h3>Paisaje Sonoro</h3>
+                    <p>Una inmersión neuroacústica que entrelaza la genialidad de Bach, Beethoven y Vivaldi con frecuencias Theta y Solfeggio, diseñadas para inducir un estado de alta receptividad creativa y relajación cortical.</p>
+                </div>
+
+                <div class="exp-card">
+                    <h3>El Archivo Vivo</h3>
+                    <p>Un juego de agudeza visual y lectura simbólica. Escanea el código QR, registra lo que viste primero y recibe una ficha del Metamanifiesto. Tus respuestas, con tu consentimiento, alimentan el archivo del inconsciente.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- OBRAS -->
+    <section class="fade-in">
+        <h2 class="section-title">La Serie Pictórica</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">9 piezas originales en soporte rígido y marco de madera. <br>Serie en producción para el preestreno en el MUCAL.</p>
+        
+        <div class="works-grid">
+            <!-- Genera 9 placeholders para que Priscila vea la escala de la expo -->
+            <div class="work-placeholder"><span>Obra 01</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 02</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 03</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 04</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 05</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 06</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 07</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 08</span><small>En producción</small></div>
+            <div class="work-placeholder"><span>Obra 09</span><small>En producción</small></div>
+        </div>
+    </section>
+
+    <!-- METAMANIFIESTO -->
+    <section class="manifesto-section fade-in">
+        <h2 class="section-title">El Metamanifiesto</h2>
+        <p style="max-width: 600px; margin: 0 auto; color: var(--text-muted);">La base teórica y neurocientífica de la Metapareidolia Pictórica. Un documento en dos libros que se leen como uno solo.</p>
+        
+        <div class="qr-placeholder">
+            QR AQUÍ
+        </div>
+        
+        <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn">Explorar el Proyecto Completo</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Juan Carlos Pérez Martínez.</p>
+        <p>Preestreno exclusivo para el Museo del Calendario (MUCAL).</p>
+        <p>Querétaro, México.</p>
+    </footer>
+
+    <!-- JS PARA ANIMACIONES -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
