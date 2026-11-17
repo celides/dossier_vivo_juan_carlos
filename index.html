@@ -100,6 +100,37 @@
         .fenix-text strong { color: var(--accent); font-weight: 600; }
         .fenix-data { color: var(--text-muted); font-size: 0.95rem; border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; }
 
+        /* SECCIÓN REMEMBRANZA */
+        .bio-container {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        .bio-photo {
+            flex: 0 0 300px;
+            height: 350px;
+            background: #151515;
+            border: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .bio-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+        }
+        .bio-text {
+            flex: 1;
+        }
+        @media (max-width: 768px) {
+            .bio-container { flex-direction: column; }
+            .bio-photo { flex: 0 0 auto; width: 100%; height: auto; aspect-ratio: 4/5; }
+        }
+
         /* PROPUESTAS MODULARES */
         .modular-grid {
             display: grid;
@@ -121,15 +152,34 @@
         .mod-card p { color: var(--text-muted); font-size: 0.95rem; }
         .mod-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; display: block; }
 
-        /* GALERÍA */
-        .gallery-intro { text-align: center; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .gallery-item { position: relative; aspect-ratio: 4/5; overflow: hidden; background-color: #151515; border: 1px solid #222; display: flex; justify-content: center; align-items: center; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; filter: grayscale(20%) brightness(0.8); }
-        .gallery-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
-        .gallery-item .placeholder-text { position: absolute; font-family: var(--font-serif); font-size: 1.2rem; color: #444; z-index: 1; }
-        .gallery-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); font-family: var(--font-serif); font-size: 1.2rem; opacity: 0; transition: opacity 0.5s ease; z-index: 2; }
-        .gallery-item:hover .gallery-caption { opacity: 1; }
+        /* EXPOSICIONES */
+        .expo-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .expo-list li {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #222;
+            display: flex;
+            gap: 2rem;
+            align-items: baseline;
+        }
+        .expo-year {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--accent);
+            flex: 0 0 80px;
+        }
+        .expo-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .expo-details p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
 
         /* BOTONES Y FOOTER */
         .btn { display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer; background: transparent; font-family: var(--font-sans); }
@@ -146,11 +196,13 @@
             body { background: #fff; color: #000; }
             header, section, footer { padding: 1rem 0; border: none; background: #fff !important; max-width: 100%; }
             .audio-controls, .top-actions, .btn { display: none !important; }
-            .section-title, .tagline, .fenix-text strong, .dedicatoria strong { color: #000 !important; }
-            .fenix-text, .fenix-data, .mod-card p { color: #333 !important; }
+            .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year { color: #000 !important; }
+            .fenix-text, .fenix-data, .mod-card p, .expo-details p { color: #333 !important; }
             .mod-card { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
+            .bio-photo { border: 1px solid #000; }
             .qr-container { display: block; text-align: center; margin: 2rem auto; border: 1px solid #000; }
             .qr-container img { width: 150px; height: 150px; }
+            .expo-list li { border-bottom: 1px solid #ccc; }
         }
     </style>
 </head>
@@ -169,137 +221,177 @@
         
         <div class="top-actions">
             <button class="btn btn-solid" onclick="window.print()">📄 Descargar PDF</button>
-            <button class="btn" id="btn-read-all" onclick="toggleRead('all')">🎤 Leer Todo</button>
+            <button class="btn" id="btn-all" data-text="Leer Todo" onclick="toggleRead('all')">🎤 Leer Todo</button>
         </div>
     </header>
 
-    <!-- 1. LA TÉCNICA -->
+    <!-- 1. REMEMBRANZA -->
     <section class="fade-in">
-        <h2 class="section-title">¿Qué es la Metapareidolia Pictórica?</h2>
+        <h2 class="section-title">Remembranza</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-read-1" onclick="toggleRead('sec-1')">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1')">🎤 Escuchar esta sección</button>
         </div>
         
-        <div id="sec-1">
-            <p class="fenix-text">
-                <strong>La escena:</strong> Estás frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que te observa. No está ahí, pero tu mente acaba de crearla. Y de repente, esa mancha te dice algo que no sabías que traías dentro.
-            </p>
-            
-            <div class="fenix-data">
-                <strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada a lo largo de 12 años que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como un disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y transformar al espectador de observador pasivo en testigo de su propio inconsciente.
+        <div class="bio-container" id="sec-1">
+            <!-- INSTRUCCIÓN: Reemplaza el src con el link de tu foto -->
+            <div class="bio-photo">
+                <img src="https://via.placeholder.com/300x350/151515/c9a063?text=Tu+Foto+Aquí" alt="Juan Carlos Pérez Martínez">
             </div>
-
-            <p class="fenix-text">
-                <strong>La puerta abierta:</strong> Esta técnica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.
-            </p>
+            
+            <div class="bio-text">
+                <p class="fenix-text">
+                    <strong>La escena:</strong> A los cuarenta años, la mayoría de la gente busca estabilidad. Yo busqué un lienzo. Nací en México D.F. en 1969, pero fue en Querétaro, frente a la decisión de terminar mis estudios de bachillerato, donde entendí que mi vida no podía seguir alejada de las artes. Dejé atrás una trayectoria en el sector comercial para dedicarme de lleno a la producción artística. 
+                </p>
+                <div class="fenix-data">
+                    <strong>El dato:</strong> Soy Licenciado en Artes Visuales por la Universidad de las Artes de Aguascalientes (2019), con formación en pintura, fotografía, grabado y escultura. Como ingeniero full-stack y artista visual, he fusionado el rigor técnico con la sensibilidad plástica, lo que me ha permitido desarrollar un método propio de investigación pictórica.
+                </div>
+                <p class="fenix-text">
+                    <strong>La puerta abierta:</strong> El arte no es solo una elección estética; es una herramienta para mirar hacia adentro. Mi obra no busca decorar paredes, busca abrir puertas al inconsciente de quien se atreve a mirar.
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- 2. EL METAMANIFIESTO -->
+    <!-- 2. LA METAPAREIDOLIA -->
     <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title">El Metamanifiesto</h2>
+            <h2 class="section-title">¿Qué es la Metapareidolia Pictórica?</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-read-2" onclick="toggleRead('sec-2')">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2')">🎤 Escuchar esta sección</button>
             </div>
-
+            
             <div id="sec-2">
                 <p class="fenix-text">
-                    <strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error, se convirtió en método. Doce años después, ese método es una teoría completa que ha sido documentada y blindada.
+                    <strong>La escena:</strong> Estás frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que te observa. No está ahí, pero tu mente acaba de crearla. Y de repente, esa mancha te dice algo que no sabías que traías dentro.
                 </p>
-
                 <div class="fenix-data">
-                    <strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona del origen de la técnica. El Libro Segundo es el aparato científico: un riguroso compendio de fichas con citas neurocientíficas verificadas, el área fusiforme facial, videos y cursos. Es la base teórica de la obra.
+                    <strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada a lo largo de 12 años que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como un disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y transformar al espectador en testigo de su propio inconsciente.
                 </div>
-
                 <p class="fenix-text">
-                    <strong>La puerta abierta:</strong> Este preestreno en el MUCAL es la presentación oficial al mundo. Es el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.
+                    <strong>La puerta abierta:</strong> Esta técnica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- 3. PROPUESTAS MODULARES -->
+    <!-- 3. EL METAMANIFIESTO -->
     <section class="fade-in">
-        <h2 class="section-title">Propuestas de Colaboración</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">
-            Sabemos que cada espacio es único. Por ello, presentamos el proyecto en módulos independientes que se adaptan a las posibilidades del MUCAL.
-        </p>
+        <h2 class="section-title">El Metamanifiesto</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-read-3" onclick="toggleRead('sec-3')">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3')">🎤 Escuchar esta sección</button>
         </div>
 
-        <div class="modular-grid" id="sec-3">
-            
-            <div class="mod-card">
-                <span class="tag">Módulo Esencial</span>
-                <h3>01. La Pintura</h3>
-                <p><strong>La escena:</strong> El visitante entra y se enfrenta a las obras.<br><br>
-                <strong>La propuesta:</strong> Montaje de la serie pictórica original. No requiere de tecnología adicional ni de personal extra. Es la exposición en su forma más pura.</p>
+        <div id="sec-3">
+            <p class="fenix-text">
+                <strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error, se convirtió en método. Doce años después, ese método es una teoría completa que ha sido documentada y blindada.
+            </p>
+            <div class="fenix-data">
+                <strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona del origen de la técnica. El Libro Segundo es el aparato científico: un riguroso compendio de fichas con citas neurocientíficas verificadas, el área fusiforme facial, videos y cursos. Es la base teórica de la obra.
             </div>
-
-            <div class="mod-card">
-                <span class="tag">Módulo Teórico</span>
-                <h3>02. El Manifiesto</h3>
-                <p><strong>La escena:</strong> El visitante se sumerge en el origen de la técnica.<br><br>
-                <strong>La propuesta:</strong> Instalación de una estación de consulta (requiere tablet o computadora). Si el museo no puede proveerla, se puede presentar el libro impreso en una mesa de lectura.</p>
-            </div>
-
-            <div class="mod-card">
-                <span class="tag">Módulo Sensorial</span>
-                <h3>03. La Inmersión Sonora</h3>
-                <p><strong>La escena:</strong> El ambiente se llena de frecuencias y música clásica.<br><br>
-                <strong>La propuesta:</strong> Paisaje neuroacústico (Bach, Beethoven, Vivaldi + ondas Theta y Solfeggio). Requiere solo de una bocina y un reproductor. Si el museo no desea audio, este módulo se omite.</p>
-            </div>
-
-            <div class="mod-card">
-                <span class="tag">Módulo Interactivo</span>
-                <h3>04. El Archivo Vivo</h3>
-                <p><strong>La escena:</strong> El visitante usa su celular para mandar lo que ve.<br><br>
-                <strong>La propuesta:</strong> Juego de agudeza visual vía WhatsApp. Cero costo de infraestructura para el museo. Beneficio: recolección de base de datos y fidelización del cliente.</p>
-            </div>
-
+            <p class="fenix-text">
+                <strong>La puerta abierta:</strong> Este preestreno en el MUCAL es la presentación oficial al mundo. Es el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.
+            </p>
         </div>
     </section>
 
-    <!-- 4. GALERÍA -->
+    <!-- 4. PROPUESTAS MODULARES -->
     <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title">Obras Anteriores</h2>
+            <h2 class="section-title">Propuestas de Colaboración</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-read-4" onclick="toggleRead('sec-4')">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4')">🎤 Escuchar esta sección</button>
             </div>
 
-            <div id="sec-4">
-                <div class="gallery-intro">
-                    <p>Una muestra de la obra desarrollada en la colección <em>La metáfora errónea del inconsciente</em>.<br><br>
-                    <strong>Para esta exposición en el MUCAL, pretendemos crear obras nuevas</strong> diseñadas específicamente para el espacio y la experiencia del visitante.</p>
+            <div class="modular-grid" id="sec-4">
+                <div class="mod-card">
+                    <span class="tag">Módulo Esencial</span>
+                    <h3>01. La Pintura</h3>
+                    <p>Montaje de la serie pictórica original. No requiere de tecnología adicional ni de personal extra. Es la exposición en su forma más pura.</p>
                 </div>
-                
-                <div class="gallery-grid">
-                    <!-- INSTRUCCIÓN: Reemplaza el "src" con la URL de tus imágenes -->
-                    <div class="gallery-item">
-                        <div class="placeholder-text">Obra Anterior 01</div>
-                        <img src="" alt="Obra 1" onerror="this.style.display='none'">
-                        <div class="gallery-caption">Serie: La Metáfora Errónica</div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="placeholder-text">Obra Anterior 02</div>
-                        <img src="" alt="Obra 2" onerror="this.style.display='none'">
-                        <div class="gallery-caption">Serie: La Metáfora Errónica</div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="placeholder-text">Obra Anterior 03</div>
-                        <img src="" alt="Obra 3" onerror="this.style.display='none'">
-                        <div class="gallery-caption">Serie: La Metáfora Errónica</div>
-                    </div>
+                <div class="mod-card">
+                    <span class="tag">Módulo Teórico</span>
+                    <h3>02. El Manifiesto</h3>
+                    <p>Instalación de una estación de consulta (tablet o computadora) o mesa de lectura con el libro impreso para explorar el corpus científico.</p>
                 </div>
-
-                <div style="text-align: center; margin-top: 3rem;">
-                    <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn">Ver Catálogo Completo</a>
+                <div class="mod-card">
+                    <span class="tag">Módulo Sensorial</span>
+                    <h3>03. La Inmersión Sonora</h3>
+                    <p>Paisaje neuroacústico (música clásica + ondas Theta y Solfeggio). Requiere solo de una bocina y un reproductor. Si no se desea audio, se omite.</p>
+                </div>
+                <div class="mod-card">
+                    <span class="tag">Módulo Interactivo</span>
+                    <h3>04. El Archivo Vivo</h3>
+                    <p>Juego de agudeza visual vía WhatsApp. Cero costo de infraestructura para el museo. Beneficio: recolección de base de datos y fidelización del cliente.</p>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- 5. EXPOSICIONES -->
+    <section class="fade-in">
+        <h2 class="section-title">Trayectoria Expositiva</h2>
+        <div class="audio-controls">
+            <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5')">🎤 Escuchar esta sección</button>
+        </div>
+
+        <ul class="expo-list" id="sec-5">
+            <li>
+                <div class="expo-year">2017</div>
+                <div class="expo-details">
+                    <h4>“Ángeles del inconsciente”</h4>
+                    <p>Exposición individual. Centro Cultural El Llano, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2017</div>
+                <div class="expo-details">
+                    <h4>“Vorágine” (Dioses de la Pareidolia)</h4>
+                    <p>Exposición colectiva. Galería de la Ciudad, Casa de la Cultura Víctor Sandoval, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2016</div>
+                <div class="expo-details">
+                    <h4>“Ángeles del inconsciente” (Caja de Inmersión)</h4>
+                    <p>Exposición individual en paralelo a la exposición de Jannis Kounellis. MECA, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2015</div>
+                <div class="expo-details">
+                    <h4>“Etnias”</h4>
+                    <p>Exposición individual de fotografía en paralelo a la exposición de Leonardo da Vinci. Museo Descubre, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2015</div>
+                <div class="expo-details">
+                    <h4>“Etnias”</h4>
+                    <p>Casa de la Cultura en Pabellón de Arteaga y Escuela de Danza George Berard, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2015</div>
+                <div class="expo-details">
+                    <h4>“La ilegalidad de la ilegalidad”</h4>
+                    <p>Instalación. Bar Umma Gumma, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2014</div>
+                <div class="expo-details">
+                    <h4>“El Nacimiento”</h4>
+                    <p>Escultura. Dame Lata Con Tu Arte 2013, Aguascalientes.</p>
+                </div>
+            </li>
+            <li>
+                <div class="expo-year">2017</div>
+                <div class="expo-details">
+                    <h4>Museo Espacio</h4>
+                    <p>Participación en exposición de cartel. Aguascalientes.</p>
+                </div>
+            </li>
+        </ul>
     </section>
 
     <!-- FOOTER -->
@@ -309,7 +401,6 @@
         </p>
         
         <div class="qr-container">
-            <!-- QR generado automáticamente apuntando a tu Vercel -->
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://metapareidolia-web.vercel.app/" alt="QR Galería Vercel">
         </div>
         <p style="font-size: 0.8rem; margin-bottom: 2rem;">Escanea para ver el catálogo completo</p>
@@ -330,71 +421,74 @@
             document.querySelectorAll('.fade-in').forEach((section) => { observer.observe(section); });
         });
 
-        // SÍNTESIS DE VOZ (TTS)
-        let currentUtterance = null;
+        // SÍNTESIS DE VOZ CORREGIDA
         let currentBtn = null;
+        let isReading = false;
 
         function toggleRead(sectionId) {
             const synth = window.speechSynthesis;
-
-            // Si ya está hablando, lo detenemos
+            const btn = event.currentTarget;
+            
+            // Si ya está leyendo, lo detenemos todo
             if (synth.speaking) {
                 synth.cancel();
+                isReading = false;
                 if (currentBtn) {
                     currentBtn.classList.remove('playing');
-                    currentBtn.innerHTML = currentBtn.innerHTML.replace('⏹ Detener', '🎤 Escuchar');
+                    currentBtn.innerHTML = '🎤 ' + currentBtn.getAttribute('data-text');
                 }
-                if (currentBtn === document.getElementById('btn-read-all') || currentBtn.id === 'btn-read-all') {
-                    currentBtn.innerHTML = '🎤 Leer Todo';
-                }
-                // Si el botón presionado es el mismo que se está reproduciendo, solo detenemos y salimos
-                const btnId = sectionId === 'all' ? 'btn-read-all' : 'btn-read-' + sectionId.split('-')[1];
-                if (currentBtn && currentBtn.id === btnId) {
+                // Si el botón presionado es el mismo que estaba leyendo, solo salimos
+                if (currentBtn === btn) {
+                    currentBtn = null;
                     return;
                 }
             }
 
+            // Preparar el texto
             let textToRead = "";
-            let btnToToggle = null;
-
             if (sectionId === 'all') {
-                textToRead = document.body.innerText; // Lee todo el body
-                btnToToggle = document.getElementById('btn-read-all');
+                // Concatenar todos los textos de las secciones
+                const sections = ['sec-1', 'sec-2', 'sec-3', 'sec-4', 'sec-5'];
+                sections.forEach(id => {
+                    textToRead += document.getElementById(id).innerText + " ";
+                });
             } else {
                 textToRead = document.getElementById(sectionId).innerText;
-                btnToToggle = document.getElementById('btn-read-' + sectionId.split('-')[1]);
             }
 
-            // Limpiar texto (quitar emojis, saltos de línea excesivos)
+            // Limpiar texto
             textToRead = textToRead.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
-            textToRead = textToRead.replace(/\n/g, ' ');
+            textToRead = textToRead.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
 
-            currentUtterance = new SpeechSynthesisUtterance(textToRead);
-            currentUtterance.lang = 'es-MX';
-            currentUtterance.rate = 1.0;
-            currentUtterance.pitch = 1.0;
+            if (textToRead === "") return;
 
-            currentUtterance.onstart = () => {
-                currentBtn = btnToToggle;
-                btnToToggle.classList.add('playing');
-                if (sectionId === 'all') {
-                    btnToToggle.innerHTML = '⏹ Detener';
-                } else {
-                    btnToToggle.innerHTML = '⏹ Detener';
-                }
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'es-MX';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+
+            utterance.onstart = () => {
+                currentBtn = btn;
+                isReading = true;
+                btn.classList.add('playing');
+                btn.innerHTML = '⏹ Detener';
             };
 
-            currentUtterance.onend = () => {
-                btnToToggle.classList.remove('playing');
-                if (sectionId === 'all') {
-                    btnToToggle.innerHTML = '🎤 Leer Todo';
-                } else {
-                    btnToToggle.innerHTML = '🎤 Escuchar esta sección';
-                }
+            utterance.onend = () => {
+                isReading = false;
+                btn.classList.remove('playing');
+                btn.innerHTML = '🎤 ' + btn.getAttribute('data-text');
                 currentBtn = null;
             };
 
-            synth.speak(currentUtterance);
+            utterance.onerror = () => {
+                isReading = false;
+                btn.classList.remove('playing');
+                btn.innerHTML = '🎤 ' + btn.getAttribute('data-text');
+                currentBtn = null;
+            };
+
+            synth.speak(utterance);
         }
     </script>
 </body>
