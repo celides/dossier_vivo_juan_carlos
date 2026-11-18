@@ -1,878 +1,366 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metapareidolia Pictórica | Propuesta MUCAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --text-main: #e0e0e0;
-            --text-muted: #888888;
-            --accent: #c9a063; /* Dorado museístico */
-            --font-serif: 'Cormorant Garamond', serif;
-            --font-sans: 'Inter', sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-top: 70px; /* Espacio para el menú fijo */
-        }
-
-        /* MENÚ DE NAVEGACIÓN FIJO */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(10, 10, 10, 0.95);
-            border-bottom: 1px solid #222;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            padding: 1rem;
-            backdrop-filter: blur(5px);
-        }
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .navbar a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-        .navbar a:hover { color: var(--accent); }
-
-        /* UTILIDADES DE AUDIO */
-        .audio-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn-audio {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-audio:hover { background: var(--accent); color: var(--bg-color); }
-        .btn-audio.playing { background: var(--accent); color: var(--bg-color); }
-
-        /* HERO */
-        header {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem;
-            border-bottom: 1px solid #222;
-        }
-
-        .dedicatoria {
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .dedicatoria strong { color: var(--accent); font-size: 1.2rem; letter-spacing: 3px; }
-
-        header h1 {
-            font-family: var(--font-serif);
-            font-size: clamp(2.5rem, 7vw, 5.5rem);
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
-
-        header h2 { font-family: var(--font-sans); font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; color: var(--text-muted); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 2rem; }
-
-        .tagline { font-family: var(--font-serif); font-size: clamp(1.5rem, 4vw, 2rem); font-style: italic; color: var(--accent); margin-bottom: 2rem; max-width: 800px; }
-
-        .top-actions { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-
-        /* SECCIONES */
-        section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; scroll-margin-top: 80px; }
-        .section-title { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 300; margin-bottom: 1rem; text-align: center; color: var(--accent); }
-
-        .fenix-text { font-size: 1.1rem; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; line-height: 1.8; }
-        .fenix-text strong { color: var(--accent); font-weight: 600; }
-        .fenix-data { color: var(--text-muted); font-size: 0.95rem; border-left: 2px solid var(--accent); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; text-align: justify; }
-
-        /* SECCIÓN REMEMBRANZA */
-        .bio-container {
-            display: flex;
-            gap: 3rem;
-            align-items: center;
-            margin-top: 2rem;
-        }
-        .bio-photo {
-            flex: 0 0 300px;
-            height: 350px;
-            background: #151515;
-            border: 1px solid #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        .bio-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%);
-        }
-        .bio-text { flex: 1; }
-
-        /* PROPUESTAS MODULARES */
-        .modular-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .mod-card {
-            background: #111;
-            padding: 2.5rem;
-            border-top: 3px solid #333;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .mod-card:hover { border-top-color: var(--accent); background: #151515; transform: translateY(-5px); }
-        .mod-card h3 { font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 1rem; color: var(--text-main); }
-        .mod-card p { color: var(--text-muted); font-size: 0.95rem; text-align: justify; }
-        .mod-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; display: block; }
-
-        /* SECCIÓN GALERÍA */
-        .gallery-invite-box {
-            text-align: center;
-            margin: 2rem auto;
-            max-width: 800px;
-            background: #111;
-            padding: 3rem 2rem;
-            border: 1px solid #333;
-            border-radius: 10px;
-        }
-        .gallery-invite-title {
-            font-family: var(--font-serif);
-            font-size: clamp(1.8rem, 5vw, 2rem);
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        .gallery-invite-text {
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-            color: var(--text-main);
-            text-align: justify;
-        }
-
-        /* GRID DE OBRAS EN GALERÍA */
-        .art-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .art-card {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        .art-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .art-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-bottom: 1px solid #222;
-        }
-        .art-info {
-            padding: 1.5rem;
-            text-align: center;
-        }
-        .art-info h4 {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-        .art-info p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.3rem;
-        }
-
-        /* BOTÓN ROCOCÓ */
-        .rococo-container { text-align: center; }
-        .btn-rococo {
-            display: inline-block;
-            padding: 1.5rem 4rem;
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            color: #111;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-decoration: none;
-            background: linear-gradient(135deg, #c9a063 0%, #fceabb 50%, #c9a063 100%);
-            border: 3px double #111;
-            outline: 2px solid var(--accent);
-            outline-offset: -8px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-            transition: all 0.4s ease;
-            position: relative;
-            cursor: pointer;
-            max-width: 100%;
-        }
-        .btn-rococo::before, .btn-rococo::after {
-            content: '❦';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
-            color: #111;
-        }
-        .btn-rococo::before { left: 15px; }
-        .btn-rococo::after { right: 15px; }
-        .btn-rococo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(201, 160, 99, 0.4);
-            background: linear-gradient(135deg, #fceabb 0%, #c9a063 50%, #fceabb 100%);
-        }
-
-        /* TRAYECTORIA Y HITOS DESTACADOS */
-        .expo-list { list-style: none; max-width: 800px; margin: 0 auto; }
-        .expo-list li { padding: 1.5rem 0; border-bottom: 1px solid #222; display: flex; gap: 2rem; align-items: baseline; }
-        .expo-year { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); flex: 0 0 80px; }
-        .expo-details h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
-        .expo-details p { color: var(--text-muted); font-size: 0.9rem; text-align: justify; }
-        
-        /* DISEÑO ESPECIAL PARA LOS HITOS */
-        .hito-card {
-            background: linear-gradient(to right, #151515, #111);
-            border: 1px solid var(--accent);
-            border-left: 5px solid var(--accent);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-radius: 5px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .hito-card .expo-year { color: var(--text-main); font-size: 1.2rem; margin-bottom: 0.5rem; display: block;}
-        .hito-card h4 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 0.5rem; }
-        .hito-card p { font-size: 1rem; color: var(--text-main); line-height: 1.7; text-align: justify; margin-bottom: 1rem; }
-        
-        /* PRENSA */
-        .press-card {
-            background: #111;
-            border: 1px solid #333;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .press-card h4 { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); margin-bottom: 1rem; }
-        .press-card p { font-size: 1rem; color: var(--text-main); font-style: italic; margin-bottom: 1.5rem; }
-        .btn-press {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        .btn-press:hover { background: var(--accent); color: var(--bg-color); }
-
-        /* BOTONES GENERALES */
-        .btn { display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer; background: transparent; font-family: var(--font-sans); }
-        .btn:hover { background: var(--accent); color: var(--bg-color); }
-        .btn-solid { background: var(--accent); color: var(--bg-color); border: 1px solid var(--accent); }
-        .btn-solid:hover { background: transparent; color: var(--accent); }
-
-        /* FOOTER */
-        footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid #222; color: var(--text-muted); font-size: 0.9rem; background: #050505; }
-        
-        .whatsapp-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #25D366;
-            color: #fff;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin: 2rem 0;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        .whatsapp-btn:hover { transform: scale(1.05); background-color: #128C7E; }
-        .whatsapp-btn svg { width: 24px; height: 24px; fill: #fff; }
-
-        .credits {
-            margin-top: 3rem;
-            font-size: 0.8rem;
-            color: #555;
-            border-top: 1px solid #222;
-            padding-top: 2rem;
-        }
-        .credits strong { color: var(--accent); font-weight: 600; }
-
-        /* PORTADA EXCLUSIVA PARA PDF (Oculta en pantalla) */
-        .print-cover { display: none; }
-
-        /* MEDIA QUERIES PARA RESPONSIVE */
-        @media (max-width: 768px) {
-            .navbar { padding: 0.8rem; }
-            .navbar ul { gap: 1rem; }
-            .navbar a { font-size: 0.75rem; }
-            
-            .bio-container { flex-direction: column; text-align: center; }
-            .bio-photo { flex: 0 0 auto; width: 100%; max-width: 300px; height: auto; aspect-ratio: 4/5; margin: 0 auto; }
-            .fenix-text, .fenix-data, .gallery-invite-text, .mod-card p, .expo-details p, .hito-card p { text-align: justify; }
-            
-            .btn-rococo {
-                font-size: 1.3rem;
-                padding: 1.2rem 1.5rem;
-                letter-spacing: 1px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            .btn-rococo::before, .btn-rococo::after { display: none; }
-            
-            .gallery-invite-box { padding: 2rem 1.5rem; }
-            .expo-list li { flex-direction: column; gap: 0.5rem; }
-            .expo-year { flex: none; }
-        }
-
-        /* ESTILOS PARA IMPRESIÓN Y PDF */
-        @media print {
-            body { background: #fff; color: #000; padding-top: 0; }
-            .navbar, header, .audio-controls, .top-actions, .btn, .whatsapp-btn, .btn-rococo, footer .credits, footer .whatsapp-btn { display: none !important; }
-            section { padding: 1rem 0; border: none; background: #fff !important; max-width: 100%; }
-            .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year, .hito-card h4, .art-info h4 { color: #000 !important; }
-            .fenix-text, .fenix-data, .mod-card p, .expo-details p, .hito-card p, .press-card p, .art-info p { color: #333 !important; }
-            .mod-card, .hito-card, .press-card, .art-card, .gallery-invite-box { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
-            .bio-photo { border: 1px solid #000; }
-            .expo-list li { border-bottom: 1px solid #ccc; }
-            .gallery-invite-box { border: 1px solid #000; background: #fff; }
-            
-            /* MOSTRAR PORTADA DEL PDF */
-            .print-cover {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                text-align: center;
-                page-break-after: always;
-                padding: 2rem;
-            }
-            .print-cover h1 {
-                font-family: var(--font-serif);
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                color: #000;
-            }
-            .print-cover h2 {
-                font-family: var(--font-sans);
-                font-size: 1.2rem;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                color: #555;
-                margin-bottom: 3rem;
-            }
-            .print-cover img {
-                width: 350px;
-                height: 350px;
-                margin-bottom: 2rem;
-                border: 5px solid #000;
-                padding: 10px;
-            }
-            .print-cover p {
-                font-size: 1.1rem;
-                color: #333;
-                max-width: 600px;
-                line-height: 1.6;
-                margin-bottom: 1rem;
-            }
-            .print-cover .highlight {
-                font-weight: bold;
-                color: #000;
-                font-size: 1.3rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metapareidolia Pictórica | Propuesta MUCAL</title>
+<meta name="description" content="Propuesta de exposición para el Museo del Calendario (MUCAL): 10 obras nuevas de Juan Carlos Pérez Martínez.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Metapareidolia Pictórica | Propuesta para el MUCAL">
+<meta property="og:description" content="La metáfora errónea del inconsciente: 10 obras nuevas para el Museo del Calendario.">
+<meta property="og:image" content="https://i.imgur.com/IGjsgRg.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--tx:#e0e0e0;--mu:#888;--ac:#c9a063;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.6;overflow-x:hidden;padding-top:60px}
+.navbar{position:fixed;top:0;left:0;width:100%;background:rgba(10,10,10,.96);border-bottom:1px solid #222;z-index:1000;backdrop-filter:blur(5px)}
+.nav-in{display:flex;justify-content:center;align-items:center;padding:1rem;min-height:60px}
+.navbar ul{list-style:none;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center}
+.navbar a{color:var(--mu);text-decoration:none;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;transition:color .3s}
+.navbar a:hover{color:var(--ac)}
+.burger{display:none;background:none;border:1px solid var(--ac);color:var(--ac);font-size:1.4rem;padding:.2rem .8rem;border-radius:6px;cursor:pointer;margin-left:auto}
+.audio-controls{display:flex;justify-content:center;margin:1rem 0 2rem}
+.btn-audio{background:transparent;border:1px solid var(--ac);color:var(--ac);padding:.5rem 1rem;border-radius:50px;cursor:pointer;font:.9rem var(--sans);transition:.3s}
+.btn-audio:hover,.btn-audio.playing{background:var(--ac);color:var(--bg)}
+header{min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4rem 2rem;border-bottom:1px solid #222}
+.dedicatoria{font-size:1rem;letter-spacing:2px;color:var(--mu);text-transform:uppercase;margin-bottom:2rem;line-height:1.8}
+.dedicatoria strong{color:var(--ac);font-size:1.2rem;letter-spacing:3px}
+header h1{font:300 clamp(2.5rem,7vw,5.5rem)/1.1 var(--serif);letter-spacing:2px;margin-bottom:1rem;text-transform:uppercase}
+header h2{font-size:clamp(1rem,2vw,1.2rem);font-weight:300;color:var(--mu);letter-spacing:4px;text-transform:uppercase;margin-bottom:2rem}
+.tagline{font:italic clamp(1.5rem,4vw,2rem) var(--serif);color:var(--ac);margin-bottom:2rem;max-width:800px}
+section{padding:5rem 2rem;max-width:1000px;margin:0 auto;scroll-margin-top:70px}
+.alt{background:#0c0c0c;max-width:100%}
+.wrap{max-width:1000px;margin:0 auto}
+.section-title{font:300 clamp(2rem,5vw,2.5rem) var(--serif);margin-bottom:1rem;text-align:center;color:var(--ac)}
+.fenix-text{font-size:1.1rem;margin-bottom:1.5rem;text-align:justify;line-height:1.8}
+.fenix-text strong{color:var(--ac);font-weight:600}
+.fenix-data{color:var(--mu);font-size:.95rem;border-left:2px solid var(--ac);padding-left:1.5rem;margin:2rem 0;font-style:italic;text-align:justify}
+.fenix-data strong{color:var(--ac)}
+.bio-container{display:flex;gap:3rem;align-items:center;margin-top:2rem}
+.bio-photo{flex:0 0 300px;height:350px;background:#151515;border:1px solid #333;overflow:hidden}
+.bio-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%)}
+.bio-text{flex:1}
+.fenix-text,.fenix-data,.gallery-invite-text,.mod-card p,.mod-card li,.expo-details p,.hito p,.refs,.press-card p,.cierre .fenix-text{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto}
+.refs{font-size:.85rem;color:var(--mu);margin-top:1.5rem;line-height:1.7}
+.refs strong{color:var(--ac)}
+.modular-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
+.mod-card{background:#111;padding:2rem;border-top:3px solid #333;transition:.3s}
+.mod-card:hover{border-top-color:var(--ac);background:#151515}
+.mod-card h3{font:600 1.5rem var(--serif);margin-bottom:.8rem}
+.mod-card p,.mod-card li{color:var(--mu);font-size:.95rem}
+.mod-card ul{list-style:none}
+.mod-card li{padding:.3rem 0;border-bottom:1px solid #1d1d1d}
+.mod-card li b{color:var(--tx);font-weight:600}
+.tag{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--ac);margin-bottom:1rem;display:block}
+.gallery-invite-box{text-align:center;margin:2rem auto;max-width:800px;background:#111;padding:3rem 2rem;border:1px solid #333;border-radius:10px}
+.gallery-invite-title{font:400 clamp(1.8rem,5vw,2rem) var(--serif);color:var(--ac);margin-bottom:1rem}
+.gallery-invite-text{font-size:1.1rem;text-align:justify}
+.gallery-invite-text strong{color:var(--ac)}
+.art-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin:3rem 0}
+.art-card{background:#0a0a0a;border:1px solid #222;border-radius:8px;overflow:hidden;transition:.3s}
+.art-card:hover{transform:translateY(-5px);border-color:var(--ac)}
+.art-card img{width:100%;height:250px;object-fit:cover;border-bottom:1px solid #222}
+.art-info{padding:1.2rem;text-align:center}
+.art-info h4{font:400 1.2rem var(--serif);color:var(--ac);margin-bottom:.5rem}
+.art-info p{font-size:.85rem;color:var(--mu)}
+.rococo-container{text-align:center;margin-top:3rem}
+.btn-rococo{display:inline-block;padding:1.5rem 4rem;font:1.8rem var(--serif);color:#111;text-transform:uppercase;letter-spacing:3px;text-decoration:none;background:linear-gradient(135deg,#c9a063,#fceabb 50%,#c9a063);border:3px double #111;outline:2px solid var(--ac);outline-offset:-8px;box-shadow:0 15px 30px rgba(0,0,0,.6);transition:.4s;position:relative;max-width:100%}
+.btn-rococo::before,.btn-rococo::after{content:'❦';position:absolute;top:50%;transform:translateY(-50%);font-size:1.2rem}
+.btn-rococo::before{left:15px}.btn-rococo::after{right:15px}
+.btn-rococo:hover{transform:scale(1.05)}
+.expo-list{list-style:none;max-width:800px;margin:0 auto}
+.expo-list li{padding:1.3rem 0;border-bottom:1px solid #222;display:flex;gap:2rem;align-items:baseline}
+.expo-year{font:1.5rem var(--serif);color:var(--ac);flex:0 0 80px}
+.expo-details h4{font-size:1.05rem;font-weight:600;margin-bottom:.3rem}
+.expo-details p{color:var(--mu);font-size:.9rem}
+.expo-list li.hito{background:linear-gradient(to right,#151515,#111);border:1px solid var(--ac);border-left:5px solid var(--ac);padding:1.8rem;margin:1rem 0;border-radius:5px}
+.hito h4{font:400 1.6rem var(--serif);color:var(--ac)}
+.hito p{color:var(--tx);font-size:1rem;line-height:1.7}
+.press-card{background:#111;border:1px solid #333;padding:2rem;border-radius:8px;text-align:center;max-width:800px;margin:0 auto}
+.press-card h4{font:400 1.5rem var(--serif);color:var(--ac);margin-bottom:1rem}
+.press-card p{font-style:italic;margin-bottom:1.2rem}
+.btn,.btn-press{display:inline-block;padding:.9rem 2.2rem;border:1px solid var(--ac);color:var(--ac);text-decoration:none;text-transform:uppercase;letter-spacing:2px;font:.9rem var(--sans);transition:.3s;cursor:pointer;background:transparent}
+.btn:hover,.btn-press:hover{background:var(--ac);color:var(--bg)}
+.btn-solid{background:var(--ac);color:var(--bg)}
+.btn-solid:hover{background:transparent;color:var(--ac)}
+.cierre{text-align:center}
+.cierre .fenix-text{text-align:center;max-width:720px;margin-left:auto;margin-right:auto}
+footer{text-align:center;padding:4rem 2rem;border-top:1px solid #222;color:var(--mu);font-size:.9rem;background:#050505}
+.whatsapp-btn{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:1rem 2rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:1.1rem;margin:2rem 0;transition:.3s}
+.whatsapp-btn:hover{transform:scale(1.05);background:#128C7E}
+.whatsapp-btn svg{width:24px;height:24px;fill:#fff}
+.credits{margin-top:3rem;font-size:.8rem;color:#555;border-top:1px solid #222;padding-top:2rem}
+.credits strong{color:var(--ac)}
+.print-cover{display:none}
+@media(max-width:768px){
+.burger{display:block}
+.nav-in{flex-wrap:wrap;padding:.6rem 1rem}
+.navbar ul{display:none;width:100%;flex-direction:column;align-items:center;gap:.2rem;padding:.8rem 0}
+.navbar ul.open{display:flex}
+.navbar a{font-size:.95rem;padding:.5rem}
+.nav-in{justify-content:space-between}
+section{padding:3.5rem 1.3rem}
+.bio-container{flex-direction:column;text-align:center}
+.bio-photo{flex:0 0 auto;width:100%;max-width:300px;height:auto;aspect-ratio:4/5;margin:0 auto}
+.btn-rococo{font-size:1.3rem;padding:1.2rem 1.5rem;letter-spacing:1px;width:100%}
+.btn-rococo::before,.btn-rococo::after{display:none}
+.gallery-invite-box{padding:2rem 1.2rem}
+.expo-list li{flex-direction:column;gap:.4rem}
+.expo-year{flex:none}
+}
+@media print{
+@page{margin:1.5cm}
+body{background:#fff;color:#000;padding-top:0}
+.navbar,header,.audio-controls,.btn,.btn-solid,.whatsapp-btn,.btn-rococo,.credits,.rococo-container,.btn-press{display:none!important}
+section,.alt{padding:1rem 0;background:#fff!important;max-width:100%;break-inside:auto}
+.section-title,.tagline,.fenix-text strong,.gallery-invite-text strong,.fenix-data strong,.expo-year,.hito h4,.art-info h4,.refs strong,.press-card h4{color:#000!important}
+.fenix-text,.fenix-data,.mod-card p,.mod-card li,.mod-card li b,.expo-details p,.hito p,.press-card p,.art-info p,.refs,.gallery-invite-text{color:#333!important}
+.mod-card,.press-card,.art-card,.gallery-invite-box,.expo-list li.hito{border:1px solid #ccc;background:#fff;break-inside:avoid}
+.art-card img{height:150px}
+.art-grid{grid-template-columns:repeat(3,1fr);gap:.8rem}
+.expo-list li{border-bottom:1px solid #ccc;break-inside:avoid}
+footer{background:#fff;border:none;padding:1rem 0;color:#333}
+footer p{color:#333!important}
+.cierre .btn{display:none}
+.print-cover{display:flex;flex-direction:column;justify-content:center;align-items:center;height:92vh;text-align:center;break-after:page;padding:2rem}
+.print-cover h1{font:3rem var(--serif);margin-bottom:1rem;color:#000}
+.print-cover h2{font-size:1.2rem;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:2rem}
+.print-cover img{width:300px;height:300px;margin-bottom:1.5rem;border:5px solid #000;padding:10px}
+.print-cover p{font-size:1.1rem;color:#333;max-width:600px;margin-bottom:1rem}
+.print-cover .highlight{font-weight:bold;color:#000;font-size:1.3rem}
+}
+</style>
 </head>
 <body>
 
-    <!-- PORTADA EXCLUSIVA PARA PDF (No se ve en la web) -->
-    <div class="print-cover">
-        <h1>El Dossier Vivo</h1>
-        <h2>Metapareidolia Pictórica</h2>
-        <p class="highlight">Este documento es solo el principio.</p>
-        <p>Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir. Para explorar la experiencia completa, los audios, las fichas y las obras en alta resolución:</p>
-        <img src="https://raw.githubusercontent.com/celides/dossier_vivo_juan_carlos/main/qr-code%20(dossier).png" alt="Código QR Dossier Vivo">
-        <p><strong>Escanea este código con tu celular</strong><br>y accede al Dossier Vivo en la web.</p>
-        <p style="margin-top: 3rem; font-size: 0.9rem; color: #666;">Juan Carlos Pérez Martínez | Para: Lic. Priscila Contreras Rivera (MUCAL)</p>
-    </div>
+<div class="print-cover">
+<h1>El Dossier Vivo</h1>
+<h2>Metapareidolia Pictórica</h2>
+<p class="highlight">Este documento es solo el principio.</p>
+<p>Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir. Para explorar la experiencia completa, los audios, las fichas y las obras en alta resolución:</p>
+<img src="https://raw.githubusercontent.com/celides/dossier_vivo_juan_carlos/main/qr-code%20(dossier).png" alt="Código QR Dossier Vivo">
+<p><strong>Escanee este código con su celular</strong><br>y acceda al Dossier Vivo en la web.</p>
+<p style="margin-top:2rem;font-size:.9rem;color:#666">Juan Carlos Pérez Martínez | Para: Lic. Priscila Contreras Rivera (MUCAL)</p>
+</div>
 
-    <!-- MENÚ DE NAVEGACIÓN FIJO -->
-    <nav class="navbar">
-        <ul>
-            <li><a href="#statement">Statement</a></li>
-            <li><a href="#remembranza">Remembranza</a></li>
-            <li><a href="#metapareidolia">Metapareidolia</a></li>
-            <li><a href="#manifiesto">Manifiesto</a></li>
-            <li><a href="#propuestas">Propuestas</a></li>
-            <li><a href="#galeria">Galería</a></li>
-            <li><a href="#trayectoria">Trayectoria</a></li>
-            <li><a href="#prensa">Prensa</a></li>
-        </ul>
-    </nav>
+<nav class="navbar">
+<div class="nav-in">
+<button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+<ul id="menu">
+<li><a href="#statement">Statement</a></li>
+<li><a href="#remembranza">Remembranza</a></li>
+<li><a href="#metapareidolia">Metapareidolia</a></li>
+<li><a href="#manifiesto">Metamanifiesto</a></li>
+<li><a href="#propuesta">Propuesta</a></li>
+<li><a href="#galeria">Galería</a></li>
+<li><a href="#trayectoria">Trayectoria</a></li>
+<li><a href="#prensa">Prensa</a></li>
+</ul>
+</div>
+</nav>
 
-    <!-- HERO / PRESENTACIÓN FORMAL -->
-    <header>
-        <div class="dedicatoria">
-            Presentación de Propuesta Artística para:<br>
-            <strong>Lic. Priscila Contreras Rivera</strong><br>
-            Directora del Museo del Calendario (MUCAL)
-        </div>
-        <h1>Metapareidolia Pictórica</h1>
-        <h2>Juan Carlos Pérez Martínez</h2>
-        <p class="tagline">La metáfora errónea del inconsciente</p>
-        
-        <div class="top-actions">
-            <button class="btn btn-solid" onclick="window.print()">📄 Descargar PDF</button>
-        </div>
-    </header>
+<header>
+<div class="dedicatoria">Presentación de Propuesta Artística para:<br><strong>Lic. Priscila Contreras Rivera</strong><br>Directora del Museo del Calendario (MUCAL)</div>
+<h1>Metapareidolia Pictórica</h1>
+<h2>Juan Carlos Pérez Martínez</h2>
+<p class="tagline">La metáfora errónea del inconsciente</p>
+<button class="btn btn-solid" onclick="window.print()">📄 Descargar PDF</button>
+</header>
 
-    <!-- STATEMENT -->
-    <section id="statement" class="fade-in">
-        <h2 class="section-title" id="title-sec0">Statement</h2>
-        <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec0" data-text="Escuchar esta sección" onclick="toggleRead('sec-0', 'title-sec0', this)">🎤 Escuchar esta sección</button>
-        </div>
-        
-        <div id="sec-0">
-            <p class="fenix-text">
-                <strong>La escena:</strong> Durante años me dijeron que el arte y la técnica eran mundos opuestos. Yo descubrí que ambos son lenguajes de creación: uno construye sistemas, el otro los descompone para encontrar la verdad que se esconde en el caos. La Metapareidolia Pictórica es el punto exacto donde la precisión se encuentra con la intuición pura.
-            </p>
-            <div class="fenix-data">
-                <strong>El dato:</strong> No pinto para decorar paredes. Pinto para construir un dispositivo que obligue a quien lo mira a enfrentarse a su propio inconsciente. El arte, como cualquier sistema, solo funciona si hay alguien al otro lado dispuesto a interactuar.
-            </div>
-            <p class="fenix-text">
-                <strong>La puerta abierta:</strong> Mi obra no pide admiración; pide presencia. Porque en el fondo, el arte no es lo que está en el lienzo, sino lo que despierta en quien se atreve a mirarlo.
-            </p>
-        </div>
-    </section>
+<section id="statement">
+<h2 class="section-title" id="title-sec0">Statement</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-0','title-sec0',this)">🎤 Escuchar esta sección</button></div>
+<div id="sec-0">
+<p class="fenix-text"><strong>La escena:</strong> Durante años me dijeron que el arte y la técnica eran mundos opuestos. Yo descubrí que ambos son lenguajes de creación: uno construye sistemas, el otro los descompone para encontrar la verdad que se esconde en el caos. La Metapareidolia Pictórica es el punto exacto donde la precisión se encuentra con la intuición pura.</p>
+<div class="fenix-data"><strong>El dato:</strong> No pinto para decorar paredes. Pinto para construir un dispositivo que invite a quien lo mira a enfrentarse a su propio inconsciente. El arte, como cualquier sistema, solo funciona si hay alguien al otro lado dispuesto a interactuar.</div>
+<p class="fenix-text"><strong>La puerta abierta:</strong> Mi obra no pide admiración; pide presencia. Porque en el fondo, el arte no es lo que está en el lienzo, sino lo que despierta en quien se atreve a mirarlo.</p>
+</div>
+</section>
 
-    <!-- REMEMBRANZA -->
-    <section id="remembranza" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
-        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec1">Remembranza</h2>
-            <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1', 'title-sec1', this)">🎤 Escuchar esta sección</button>
-            </div>
-            
-            <div class="bio-container" id="sec-1">
-                <div class="bio-photo">
-                    <img src="https://raw.githubusercontent.com/celides/dossier_vivo_juan_carlos/main/foto%20-%20juan%20-%20carlos.jpg" alt="Juan Carlos Pérez Martínez" onerror="this.src='https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg';">
-                </div>
-                
-                <div class="bio-text">
-                    <p class="fenix-text">
-                        <strong>La escena:</strong> A los cuarenta años, la mayoría de la gente busca estabilidad. Yo busqué un lienzo. Nací en México D.F. en 1969, pero fue en Querétaro, frente a la decisión de terminar mis estudios de bachillerato, donde entendí que mi vida no podía seguir alejada de las artes. Dejé atrás una trayectoria en el sector comercial para dedicarme de lleno a la producción artística. 
-                    </p>
-                    <div class="fenix-data">
-                        <strong>El dato:</strong> Soy Licenciado en Artes Visuales por la Universidad de las Artes de Aguascalientes (2019), con formación en pintura, fotografía, grabado y escultura. Como ingeniero full-stack y artista visual, he fusionado el rigor técnico con la sensibilidad plástica, lo que me ha permitido desarrollar un método propio de investigación pictórica.
-                    </div>
-                    <p class="fenix-text">
-                        <strong>La puerta abierta:</strong> El arte no es solo una elección estética; es una herramienta para mirar hacia adentro. Mi obra no busca decorar paredes, busca abrir puertas al inconsciente de quien se atreve a mirar.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="remembranza" class="alt">
+<div class="wrap">
+<h2 class="section-title" id="title-sec1">Remembranza</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-1','title-sec1',this)">🎤 Escuchar esta sección</button></div>
+<div class="bio-container" id="sec-1">
+<div class="bio-photo"><img src="https://raw.githubusercontent.com/celides/dossier_vivo_juan_carlos/main/foto%20-%20juan%20-%20carlos.jpg" alt="Juan Carlos Pérez Martínez" onerror="this.src='https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg';"></div>
+<div class="bio-text">
+<p class="fenix-text"><strong>La escena:</strong> A los cuarenta años, la mayoría de la gente busca estabilidad. Yo busqué un lienzo. Nací en México D.F. en 1969, pero fue en Querétaro, frente a la decisión de terminar mis estudios de bachillerato, donde entendí que mi vida no podía seguir alejada de las artes. Dejé atrás una trayectoria en el sector comercial para dedicarme de lleno a la producción artística.</p>
+<div class="fenix-data"><strong>El dato:</strong> Soy Licenciado en Artes Visuales por la Universidad de las Artes de Aguascalientes (2019), con formación en pintura, fotografía, grabado y escultura. Como ingeniero full-stack y artista visual, he fusionado el rigor técnico con la sensibilidad plástica, lo que me ha permitido desarrollar un método propio de investigación pictórica.</div>
+<p class="fenix-text"><strong>La puerta abierta:</strong> El arte no es solo una elección estética; es una herramienta para mirar hacia adentro. Mi obra busca abrir puertas al inconsciente de quien se atreve a mirar. En este camino cuento con el acompañamiento de Adriana Ayala Gutiérrez, colaboradora externa, guía y gran apoyo del proyecto.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- METAPAREIDOLIA -->
-    <section id="metapareidolia" class="fade-in">
-        <h2 class="section-title" id="title-sec2">¿Qué es la Metapareidolia Pictórica?</h2>
-        <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2', 'title-sec2', this)">🎤 Escuchar esta sección</button>
-        </div>
-        
-        <div id="sec-2">
-            <p class="fenix-text">
-                <strong>La escena:</strong> Estás frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que te observa. No está ahí, pero tu mente acaba de crearla. Y de repente, esa mancha te dice algo que no sabías que traías dentro.
-            </p>
-            <div class="fenix-data">
-                <strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada a lo largo de 12 años que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como un disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y transformar al espectador en testigo de su propio inconsciente.
-            </div>
-            <p class="fenix-text">
-                <strong>La puerta abierta:</strong> Esta técnica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.
-            </p>
-        </div>
-    </section>
+<section id="metapareidolia">
+<h2 class="section-title" id="title-sec2">¿Qué es la Metapareidolia Pictórica?</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-2','title-sec2',this)">🎤 Escuchar esta sección</button></div>
+<div id="sec-2">
+<p class="fenix-text"><strong>La escena:</strong> Está usted frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que lo observa. No está ahí, pero su mente acaba de crearla. Y esa mancha le dice algo que no sabía que traía dentro.</p>
+<div class="fenix-data"><strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada durante más de una década que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y convertir al espectador en testigo de su propio inconsciente.</div>
+<p class="fenix-text"><strong>La puerta abierta:</strong> Esta técnica no le pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.</p>
+</div>
+</section>
 
-    <!-- EL METAMANIFIESTO -->
-    <section id="manifiesto" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
-        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec3">El Metamanifiesto</h2>
-            <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3', 'title-sec3', this)">🎤 Escuchar esta sección</button>
-            </div>
+<section id="manifiesto" class="alt">
+<div class="wrap">
+<h2 class="section-title" id="title-sec3">El Metamanifiesto</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-3','title-sec3',this)">🎤 Escuchar esta sección</button></div>
+<div id="sec-3">
+<p class="fenix-text"><strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error se convirtió en método. Más de una década después, ese método es una teoría documentada y en construcción: es lo más reciente que estoy trabajando.</p>
+<div class="fenix-data"><strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona del origen de la técnica. El Libro Segundo es el aparato teórico: un compendio de fichas con referencias neurocientíficas, videos y cursos. Es la base conceptual de la obra y se presenta también en audio.</div>
+<p class="fenix-text"><strong>La puerta abierta:</strong> Su exhibición en el MUCAL sería la presentación pública del Metamanifiesto: el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.</p>
+<p class="refs"><strong>Referencias de apoyo:</strong> Kanwisher, McDermott y Chun (1997), área fusiforme facial, <em>Journal of Neuroscience</em>. · Hadjikhani et al. (2009), activación cortical ante objetos con apariencia de rostro, <em>NeuroReport</em>. · Rorschach (1921), antecedente de la técnica proyectiva con manchas de tinta.</p>
+</div>
+</div>
+</section>
 
-            <div id="sec-3">
-                <p class="fenix-text">
-                    <strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error, se convirtió en método. Doce años después, ese método es una teoría completa que ha sido documentada y blindada.
-                </p>
-                <div class="fenix-data">
-                    <strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona del origen de la técnica. El Libro Segundo es el aparato científico: un riguroso compendio de fichas con citas neurocientíficas verificadas, el área fusiforme facial, videos y cursos. Es la base teórica de la obra.
-                </div>
-                <p class="fenix-text">
-                    <strong>La puerta abierta:</strong> Este preestreno en el MUCAL es la presentación oficial al mundo. Es el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.
-                </p>
-            </div>
-        </div>
-    </section>
+<section id="propuesta">
+<h2 class="section-title" id="title-sec4">Propuesta de Exposición</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-4','title-sec4',this)">🎤 Escuchar esta sección</button></div>
+<div id="sec-4">
+<p class="fenix-text"><strong>Una exposición hecha para el MUCAL:</strong> un museo dedicado al calendario es un museo del tiempo, de los ciclos y de la memoria. La pareidolia trabaja con lo mismo: lo que el ojo guarda, y vuelve a encontrar cada vez que mira. Por eso la serie <em>La metáfora errónea del inconsciente</em> se plantea como una obra que cambia con cada visita, porque cada visitante ve algo distinto.</p>
+<div class="modular-grid">
+<div class="mod-card">
+<span class="tag">La muestra</span>
+<h3>10 obras inéditas</h3>
+<ul>
+<li><b>Tema:</b> La metáfora errónea del inconsciente</li>
+<li><b>Formato:</b> marcos cuadrados de madera, 66 × 66 cm (ya producidos)</li>
+<li><b>Pintura:</b> 56 × 56 cm, fondo de 4 cm</li>
+<li><b>Espacio requerido:</b> aprox. 8.5 m lineales de pared</li>
+<li><b>Fechas y sala:</b> por definir tras la visita al recinto</li>
+</ul>
+</div>
+<div class="mod-card">
+<span class="tag">Acuerdo</span>
+<h3>Qué aporto y qué se acuerda</h3>
+<ul>
+<li><b>Difusión:</b> campaña en redes sociales para la inauguración, a mi cargo</li>
+<li><b>Obra:</b> disponible para adquisición durante la muestra</li>
+<li><b>Condiciones comerciales:</b> a convenir con el museo</li>
+<li><b>Montaje, seguro y traslado:</b> a definir en conjunto</li>
+</ul>
+</div>
+<div class="mod-card">
+<span class="tag">Módulos opcionales</span>
+<h3>Para enriquecer la visita</h3>
+<ul>
+<li><b>El Manifiesto:</b> estación de consulta o mesa de lectura con el libro impreso</li>
+<li><b>La Inmersión Sonora:</b> paisaje neuroacústico con una bocina y un reproductor</li>
+<li><b>Talleres:</b> si el espacio y el museo lo permiten</li>
+</ul>
+</div>
+</div>
+<p class="fenix-text" style="margin-top:2rem"><strong>Una exposición con la que se vuelve:</strong> la propuesta busca que el público regrese a mirar de nuevo, porque cada obra se descubre distinta en cada visita.</p>
+</div>
+</section>
 
-    <!-- PROPUESTAS MODULARES -->
-    <section id="propuestas" class="fade-in">
-        <h2 class="section-title" id="title-sec4">Propuestas de Colaboración</h2>
-        <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4', 'title-sec4', this)">🎤 Escuchar esta sección</button>
-        </div>
+<section id="galeria" class="alt">
+<div class="wrap">
+<h2 class="section-title" id="title-sec5">La Metáfora Errónea del Inconsciente</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-5','title-sec5',this)">🎤 Escuchar esta sección</button></div>
+<div id="sec-5">
+<div class="gallery-invite-box">
+<h3 class="gallery-invite-title">El Nacimiento de la Obra</h3>
+<p class="gallery-invite-text">
+<strong>La escena:</strong> Imagine una pared vacía. La luz está puesta, el silencio es total. De pronto se corta el listón y entran los primeros visitantes. En ese instante la obra cobra vida. Para mí, una pintura no nace en el taller; <strong>nace cuando se inaugura una exposición.</strong> Es ahí, cuando el público la mira por primera vez, donde la obra respira y se consolida.
+<br><br>
+<strong>El dato:</strong> Las obras que verá a continuación ya son adultas: han sido expuestas y llevan años dialogando con el público. Por eso, para el MUCAL, <strong>no traeré obras que ya han vivido.</strong> Quiero que sus paredes sean la cuna de algo completamente virgen.
+<br><br>
+<strong>La puerta abierta:</strong> Le invito a conocer <strong>el laboratorio donde he perfeccionado el caos.</strong> Para su recinto crearé <strong>piezas exclusivas</strong>, diseñadas desde cero, que nacerán el día de la inauguración.
+</p>
+</div>
+<div class="art-grid">
+<div class="art-card"><img src="https://i.imgur.com/IGjsgRg.jpeg" alt="Materia Oscura del Oráculo Onírico"><div class="art-info"><h4>Materia Oscura del Oráculo Onírico</h4><p>Metapareidolia Pictórica</p></div></div>
+<div class="art-card"><img src="https://i.imgur.com/Y1mGq1V.jpeg" alt="Cartografía Áurica de la Huella Sublimada"><div class="art-info"><h4>Cartografía Áurica de la Huella Sublimada</h4><p>Metapareidolia Pictórica</p></div></div>
+<div class="art-card"><img src="https://i.imgur.com/c8JDZzm.jpeg" alt="Cripta de la Memoria Fractal"><div class="art-info"><h4>Cripta de la Memoria Fractal</h4><p>Metapareidolia Pictórica</p></div></div>
+<div class="art-card"><img src="https://i.imgur.com/elGInqm.jpeg" alt="Núcleo Sombrío de la Metamorfosis Áureo-Blanca"><div class="art-info"><h4>Núcleo Sombrío de la Metamorfosis Áureo-Blanca</h4><p>Metapareidolia Pictórica</p></div></div>
+<div class="art-card"><img src="https://i.imgur.com/qZ90DAc.jpeg" alt="Sismo Cromático de la Verdad Sumergida"><div class="art-info"><h4>Sismo Cromático de la Verdad Sumergida</h4><p>Metapareidolia Pictórica</p></div></div>
+<div class="art-card"><img src="https://i.imgur.com/hWLC8aq.jpeg" alt="Destilación del Caos en la Materia Primordial"><div class="art-info"><h4>Destilación del Caos en la Materia Primordial</h4><p>Metapareidolia Pictórica</p></div></div>
+</div>
+<div class="rococo-container"><a href="https://metapareidolia-web.vercel.app/#metafora-erronea" target="_blank" rel="noopener" class="btn-rococo">Entrar a la Galería</a></div>
+</div>
+</div>
+</section>
 
-        <div class="modular-grid" id="sec-4">
-            <div class="mod-card">
-                <span class="tag">Módulo Esencial</span>
-                <h3>01. La Pintura</h3>
-                <p>Montaje de la serie pictórica original. No requiere de tecnología adicional ni de personal extra. Es la exposición en su forma más pura.</p>
-            </div>
-            <div class="mod-card">
-                <span class="tag">Módulo Teórico</span>
-                <h3>02. El Manifiesto</h3>
-                <p>Instalación de una estación de consulta (tablet o computadora) o mesa de lectura con el libro impreso para explorar el corpus científico.</p>
-            </div>
-            <div class="mod-card">
-                <span class="tag">Módulo Sensorial</span>
-                <h3>03. La Inmersión Sonora</h3>
-                <p>Paisaje neuroacústico (música clásica + ondas Theta y Solfeggio). Requiere solo de una bocina y un reproductor. Si no se desea audio, se omite.</p>
-            </div>
-            <div class="mod-card">
-                <span class="tag">Módulo Interactivo</span>
-                <h3>04. El Archivo Vivo</h3>
-                <p>Juego de agudeza visual vía WhatsApp. Cero costo de infraestructura para el museo. Beneficio: recolección de base de datos y fidelización del cliente.</p>
-            </div>
-        </div>
-    </section>
+<section id="trayectoria">
+<h2 class="section-title" id="title-sec6">Trayectoria</h2>
+<div class="audio-controls"><button class="btn-audio" data-text="Escuchar esta sección" onclick="toggleRead('sec-6','title-sec6',this)">🎤 Escuchar esta sección</button></div>
+<ul class="expo-list" id="sec-6">
+<li class="hito"><div class="expo-year">2026</div><div class="expo-details"><h4>El Metamanifiesto</h4><p>Documento transmedia en dos libros, con versión en audio. Su preestreno público se propone en el MUCAL.</p></div></li>
+<li><div class="expo-year">2019</div><div class="expo-details"><h4>Licenciatura en Artes Visuales</h4><p>Universidad de las Artes de Aguascalientes. Pintura, fotografía, grabado y escultura.</p></div></li>
+<li><div class="expo-year">2017</div><div class="expo-details"><h4>“Ángeles del inconsciente”</h4><p>Exposición individual. Centro Cultural El Llano, Aguascalientes.</p></div></li>
+<li><div class="expo-year">2017</div><div class="expo-details"><h4>“Vorágine” (Dioses de la Pareidolia)</h4><p>Exposición colectiva. Galería de la Ciudad, Casa de la Cultura Víctor Sandoval, Aguascalientes.</p></div></li>
+<li><div class="expo-year">2017</div><div class="expo-details"><h4>Museo Espacio</h4><p>Participación en exposición de cartel. Aguascalientes.</p></div></li>
+<li class="hito"><div class="expo-year">2016</div><div class="expo-details"><h4>Museo Espacio (MECA): inauguración con Jannis Kounellis</h4><p>Inauguración del recinto cultural más importante de Aguascalientes. En paralelo a la exposición internacional <em>"Relámpagos sobre México"</em> del maestro del Arte Povera, Jannis Kounellis (más de 6,000 m²), presenté mi exposición individual <strong>"Ángeles del inconsciente" (Caja de Inmersión)</strong>. Participé también en el simposio internacional <strong>"El drama de la forma"</strong>, junto a 15 especialistas de artes visuales a nivel mundial.</p></div></li>
+<li class="hito"><div class="expo-year">2015</div><div class="expo-details"><h4>Museo Descubre: exposición en paralelo a Leonardo da Vinci</h4><p>Exposición individual de fotografía <strong>"Etnias"</strong> en el principal museo de ciencia y tecnología del estado, durante la muestra <em>"Vida y Obra de Leonardo da Vinci"</em> (64 inventos y 17 códices desde Milán, con más de 13,000 visitantes).</p></div></li>
+<li><div class="expo-year">2015</div><div class="expo-details"><h4>“Etnias”</h4><p>Casa de la Cultura en Pabellón de Arteaga y Escuela de Danza George Berard, Aguascalientes.</p></div></li>
+<li><div class="expo-year">2015</div><div class="expo-details"><h4>“La ilegalidad de la ilegalidad”</h4><p>Instalación. Bar Umma Gumma, Aguascalientes.</p></div></li>
+<li><div class="expo-year">2013</div><div class="expo-details"><h4>“El Nacimiento”</h4><p>Escultura. Dame Lata Con Tu Arte 2013, Aguascalientes.</p></div></li>
+</ul>
+</section>
 
-    <!-- GALERÍA DE ARTE (LA METÁFORA ERRÓNEA DEL INCONSCIENTE) -->
-    <section id="galeria" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
-        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec5">La Metáfora Errónea del Inconsciente</h2>
-            <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', 'title-sec5', this)">🎤 Escuchar esta sección</button>
-            </div>
+<section id="prensa" class="alt">
+<div class="wrap">
+<h2 class="section-title" id="title-sec7">Prensa</h2>
+<div class="press-card">
+<h4>"Crea Juan Carlos Pérez obra de arte para hablar con el inconsciente"</h4>
+<p>“Su actual trabajo de investigación pictórica, propone una técnica diferente de observación de la obra plástica de su autoría. Para poder hacer una reflexión mediante un método nuevo que lleva el nombre de El Método Celidiano...”</p>
+<p style="font-size:.9rem;color:var(--mu);font-style:normal">Jorge Luis Heredia, 30 de septiembre de 2017</p>
+<a href="http://findesemanaags.blogspot.com/2017/09/crea-juan-carlos-perez-obra-de-arte.html" target="_blank" rel="noopener" class="btn-press">Leer entrevista completa</a>
+</div>
+</div>
+</section>
 
-            <div id="sec-5">
-                <div class="gallery-invite-box">
-                    <h3 class="gallery-invite-title">El Nacimiento de la Obra</h3>
-                    <p class="gallery-invite-text">
-                        <strong>La escena:</strong> Imagina una pared vacía. La luz está puesta, el silencio es total. De pronto, se corta el listón y entran los primeros visitantes. En ese instante exacto, frente a sus ojos, la obra cobra vida. Para mí, una pintura no nace en el taller del artista; <strong>nace en el momento en que se inaugura una exposición.</strong> Es ahí, cuando el público la mira por primera vez, donde la obra respira y se consolida.
-                        <br><br>
-                        <strong>El dato:</strong> Las obras que verás a continuación ya son adultas. Ya nacieron. Han sido expuestas y llevan años dialogando con el público. Por eso, para esta exposición en el MUCAL, <strong>no quiero traerte obras que ya han vivido.</strong> Quiero que tus paredes sean la cuna de algo completamente virgen.
-                        <br><br>
-                        <strong>La puerta abierta:</strong> Te invito a conocer <strong>el laboratorio donde he perfeccionado el caos.</strong> Lo que estás a punto de ver es la prueba de mi técnica. Para tu recinto, voy a crear <strong>piezas exclusivas</strong>. Obras nuevas, diseñadas desde cero, que nacerán el día que inauguremos juntos la exposición.
-                        <br><br>
-                        <em>Entra, conoce mi arte y mi historia. Pero prepárate, porque lo que vamos a crear para ti será un capítulo que nadie más va a tener.</em>
-                    </p>
-                </div>
+<section class="cierre" id="contacto">
+<h2 class="section-title">Conversemos</h2>
+<p class="fenix-text">Le propongo una reunión breve para conocer la sala y definir juntos fechas, montaje y condiciones. La exposición se adapta al espacio que el museo pueda ofrecer.</p>
+</section>
 
-                <!-- GRID DE LAS 6 OBRAS -->
-                <div class="art-grid">
-                    <!-- Materia Oscura -->
-                    <div class="art-card">
-                        <img src="https://i.imgur.com/IGjsgRg.jpeg" alt="Materia Oscura del Oráculo Onírico">
-                        <div class="art-info">
-                            <h4>Materia Oscura del Oráculo Onírico</h4>
-                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
-                            <p>Técnica: Metapareidolia Pictórica</p>
-                        </div>
-                    </div>
-                    <!-- Cartografía Áurica -->
-                    <div class="art-card">
-                        <img src="https://i.imgur.com/Y1mGq1V.jpeg" alt="Cartografía Áurica de la Huella Sublimada">
-                        <div class="art-info">
-                            <h4>Cartografía Áurica de la Huella Sublimada</h4>
-                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
-                            <p>Técnica: Metapareidolia Pictórica</p>
-                        </div>
-                    </div>
-                    <!-- Cripta de la Memoria -->
-                    <div class="art-card">
-                        <img src="https://i.imgur.com/c8JDZzm.jpeg" alt="Cripta de la Memoria Fractal">
-                        <div class="art-info">
-                            <h4>Cripta de la Memoria Fractal</h4>
-                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
-                            <p>Técnica: Metapareidolia Pictórica</p>
-                        </div>
-                    </div>
-                    <!-- Núcleo Sombrío -->
-                    <div class="art-card">
-                        <img src="https://i.imgur.com/elGInqm.jpeg" alt="Núcleo Sombrío de la Metamorfosis Áureo-Blanca">
-                        <div class="art-info">
-                            <h4>Núcleo Sombrío de la Metamorfosis Áureo-Blanca</h4>
-                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
-                            <p>Técnica: Metapareidolia Pictórica</p>
-                        </div>
-                    </div>
-                    <!-- Sismo Cromático -->
-                    <div class="art-card">
-                        <img src="https://i.imgur.com/qZ90DAc.jpeg" alt="Sismo Cromático de la Verdad Sumergida">
-                        <div class="art-info">
-                            <h4>Sismo Cromático de la Verdad Sumergida</h4>
-                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
-                            <p>Técnica: Metapareidolia Pictórica</p>
-                        </div>
-                    </div>
-                    <!-- Destilación del Caos -->
-                    <div class="art-card">
-                        <img src="https://i.imgur.com/hWLC8aq.jpeg" alt="Destilación del Caos en la Materia Primordial">
-                        <div class="art-info">
-                            <h4>Destilación del Caos en la Materia Primordial</h4>
-                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
-                            <p>Técnica: Metapareidolia Pictórica</p>
-                        </div>
-                    </div>
-                </div>
+<footer>
+<p style="font:1.5rem var(--serif);color:var(--tx);margin-bottom:1rem">"No es la obra la que te mira: es tu inconsciente el que aparece."</p>
+<a href="https://wa.me/524464044521?text=Hola%20Juan%20Carlos,%20vi%20tu%20propuesta%20para%20el%20MUCAL." target="_blank" rel="noopener" class="whatsapp-btn">
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+Contactar por WhatsApp</a>
+<div class="credits">
+<p>Diseño y desarrollo web hecho por <strong>Stack Labs</strong></p>
+<p>Ingeniero en Desarrollo Full Stack: Juan Carlos Pérez Martínez</p>
+<p>WhatsApp: 446 404 45 21 | Querétaro, México</p>
+</div>
+</footer>
 
-                <div class="rococo-container" style="margin-top: 3rem;">
-                    <a href="https://metapareidolia-web.vercel.app/#metafora-erronea" target="_blank" class="btn-rococo">
-                        Entrar a la Galería
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+burger.addEventListener('click',()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o);burger.textContent=o?'✕':'☰'});
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.classList.remove('open');burger.textContent='☰';burger.setAttribute('aria-expanded',false)}));
 
-    <!-- TRAYECTORIA EXPOSITIVA -->
-    <section id="trayectoria" class="fade-in">
-        <h2 class="section-title" id="title-sec6">Trayectoria Expositiva</h2>
-        <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec6" data-text="Escuchar esta sección" onclick="toggleRead('sec-6', 'title-sec6', this)">🎤 Escuchar esta sección</button>
-        </div>
-
-        <div id="sec-6">
-            <!-- HITOS DESTACADOS -->
-            <div class="hito-card">
-                <span class="expo-year">2016 | Hito Histórico</span>
-                <h4>Museo Espacio (MECA) — Inauguración con Jannis Kounellis</h4>
-                <p>Inauguración del recinto cultural más importante de Aguascalientes. En paralelo a la exposición internacional <em>"Relámpagos sobre México"</em> del maestro del Arte Povera, Jannis Kounellis (quien ocupó más de 6,000 m²), presenté mi exposición individual <strong>"Ángeles del inconsciente" (Caja de Inmersión)</strong>. Además, participé en el simposio internacional <strong>"El drama de la forma"</strong>, compartiendo escenario con 15 especialistas de artes visuales a nivel mundial.</p>
-            </div>
-
-            <div class="hito-card">
-                <span class="expo-year">2015 | Hito Internacional</span>
-                <h4>Museo Descubre — Exposición en paralelo a Leonardo da Vinci</h4>
-                <p>Presentación de mi exposición individual de fotografía <strong>"Etnias"</strong> en el principal museo de ciencia y tecnología del estado. La muestra coincidió con la exposición <em>"Vida y Obra de Leonardo da Vinci"</em>, que trajo desde Milán 64 inventos y 17 códices, atrayendo a más de 13,000 visitantes.</p>
-            </div>
-
-            <!-- RESTO DE LA TRAYECTORIA -->
-            <ul class="expo-list" style="margin-top: 3rem;">
-                <li>
-                    <div class="expo-year">2017</div>
-                    <div class="expo-details">
-                        <h4>“Ángeles del inconsciente”</h4>
-                        <p>Exposición individual. Centro Cultural El Llano, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2017</div>
-                    <div class="expo-details">
-                        <h4>“Vorágine” (Dioses de la Pareidolia)</h4>
-                        <p>Exposición colectiva. Galería de la Ciudad, Casa de la Cultura Víctor Sandoval, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2015</div>
-                    <div class="expo-details">
-                        <h4>“Etnias”</h4>
-                        <p>Casa de la Cultura en Pabellón de Arteaga y Escuela de Danza George Berard, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2015</div>
-                    <div class="expo-details">
-                        <h4>“La ilegalidad de la ilegalidad”</h4>
-                        <p>Instalación. Bar Umma Gumma, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2014</div>
-                    <div class="expo-details">
-                        <h4>“El Nacimiento”</h4>
-                        <p>Escultura. Dame Lata Con Tu Arte 2013, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2017</div>
-                    <div class="expo-details">
-                        <h4>Museo Espacio</h4>
-                        <p>Participación en exposición de cartel. Aguascalientes.</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- PRENSA -->
-    <section id="prensa" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
-        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec7">Prensa</h2>
-            <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec7" data-text="Escuchar esta sección" onclick="toggleRead('sec-7', 'title-sec7', this)">🎤 Escuchar esta sección</button>
-            </div>
-
-            <div id="sec-7">
-                <div class="press-card">
-                    <h4>"Crea Juan Carlos Pérez obra de arte para hablar con el inconsciente"</h4>
-                    <p>“Su actual trabajo de investigación pictórica, propone una técnica diferente de observación de la obra plástica de su autoría. Para poder hacer una reflexión mediante un método nuevo que lleva el nombre de El Método Celidiano...”</p>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">— Jorge Luis Heredia, 30 de septiembre de 2017</p>
-                    <a href="http://findesemanaags.blogspot.com/2017/09/crea-juan-carlos-perez-obra-de-arte.html" target="_blank" class="btn-press">Leer entrevista completa</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--text-main); margin-bottom: 1rem;">
-            "No es la obra la que te mira: es tu inconsciente el que aparece."
-        </p>
-        
-        <!-- BOTÓN DE WHATSAPP -->
-        <a href="https://wa.me/524464044521?text=Hola%20Juan%20Carlos,%20vi%20tu%20propuesta%20para%20el%20MUCAL." target="_blank" class="whatsapp-btn">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Contactar por WhatsApp
-        </a>
-
-        <div class="credits">
-            <p>Diseño y desarrollo web hecho por <strong>Stack Labs</strong></p>
-            <p>Ingeniero en Desarrollo Full Stack: Juan Carlos Pérez Martínez</p>
-            <p>Teléfono: 446 404 45 21 | Querétaro, México</p>
-        </div>
-    </footer>
-
-    <script>
-        // EFECTO SCROLL
-        document.addEventListener("DOMContentLoaded", function() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in').forEach((section) => { observer.observe(section); });
-        });
-
-        // SÍNTESIS DE VOZ (LEE TÍTULO Y TEXTO)
-        let currentBtn = null;
-
-        function toggleRead(contentId, titleId, btn) {
-            const synth = window.speechSynthesis;
-            
-            if (synth.speaking) {
-                synth.cancel();
-                if (currentBtn) {
-                    currentBtn.classList.remove('playing');
-                    currentBtn.innerHTML = '🎤 ' + currentBtn.getAttribute('data-text');
-                }
-                if (currentBtn === btn) {
-                    currentBtn = null;
-                    return;
-                }
-            }
-
-            let textToRead = "";
-
-            const titleElement = document.getElementById(titleId);
-            if (titleElement) {
-                textToRead += titleElement.innerText + ". ";
-            }
-
-            const contentElement = document.getElementById(contentId);
-            if (contentElement) {
-                textToRead += contentElement.innerText;
-            }
-
-            textToRead = textToRead.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
-            textToRead = textToRead.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
-
-            if (textToRead === "") return;
-
-            const utterance = new SpeechSynthesisUtterance(textToRead);
-            utterance.lang = 'es-MX';
-            utterance.rate = 0.95;
-            utterance.pitch = 1.0;
-
-            utterance.onstart = () => {
-                currentBtn = btn;
-                btn.classList.add('playing');
-                btn.innerHTML = '⏹ Detener';
-            };
-
-            utterance.onend = () => {
-                btn.classList.remove('playing');
-                btn.innerHTML = '🎤 ' + btn.getAttribute('data-text');
-                currentBtn = null;
-            };
-
-            utterance.onerror = () => {
-                btn.classList.remove('playing');
-                btn.innerHTML = '🎤 ' + btn.getAttribute('data-text');
-                currentBtn = null;
-            };
-
-            synth.speak(utterance);
-        }
-    </script>
+let currentBtn=null;
+function resetBtn(b){b.classList.remove('playing');b.innerHTML='🎤 '+b.getAttribute('data-text')}
+function toggleRead(contentId,titleId,btn){
+const synth=window.speechSynthesis;
+if(!synth)return;
+if(synth.speaking||synth.pending){
+synth.cancel();
+if(currentBtn)resetBtn(currentBtn);
+if(currentBtn===btn){currentBtn=null;return}
+}
+let t='';
+const te=document.getElementById(titleId),ce=document.getElementById(contentId);
+if(te)t+=te.innerText+'. ';
+if(ce)t+=ce.innerText;
+t=t.replace(/\s+/g,' ').trim();
+if(!t)return;
+const u=new SpeechSynthesisUtterance(t);
+u.lang='es-MX';u.rate=.95;u.pitch=1;
+u.onstart=()=>{currentBtn=btn;btn.classList.add('playing');btn.innerHTML='⏹ Detener'};
+const end=()=>{resetBtn(btn);if(currentBtn===btn)currentBtn=null};
+u.onend=end;u.onerror=end;
+synth.speak(u);
+}
+</script>
 </body>
 </html>
