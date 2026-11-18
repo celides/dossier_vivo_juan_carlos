@@ -23,7 +23,39 @@
             font-family: var(--font-sans);
             line-height: 1.6;
             overflow-x: hidden;
+            padding-top: 70px; /* Espacio para el menú fijo */
         }
+
+        /* MENÚ DE NAVEGACIÓN FIJO */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid #222;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            backdrop-filter: blur(5px);
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .navbar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .navbar a:hover { color: var(--accent); }
 
         /* UTILIDADES DE AUDIO */
         .audio-controls {
@@ -93,7 +125,7 @@
         .top-actions { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
 
         /* SECCIONES */
-        section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+        section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; scroll-margin-top: 80px; }
         .section-title { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 300; margin-bottom: 1rem; text-align: center; color: var(--accent); }
 
         .fenix-text { font-size: 1.1rem; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; line-height: 1.8; }
@@ -188,7 +220,7 @@
             transition: all 0.4s ease;
             position: relative;
             cursor: pointer;
-            max-width: 100%; /* Asegura que no se desborde */
+            max-width: 100%;
         }
         .btn-rococo::before, .btn-rococo::after {
             content: '❦';
@@ -206,12 +238,51 @@
             background: linear-gradient(135deg, #fceabb 0%, #c9a063 50%, #fceabb 100%);
         }
 
-        /* EXPOSICIONES */
+        /* TRAYECTORIA Y HITOS DESTACADOS */
         .expo-list { list-style: none; max-width: 800px; margin: 0 auto; }
         .expo-list li { padding: 1.5rem 0; border-bottom: 1px solid #222; display: flex; gap: 2rem; align-items: baseline; }
         .expo-year { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); flex: 0 0 80px; }
         .expo-details h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
         .expo-details p { color: var(--text-muted); font-size: 0.9rem; text-align: justify; }
+        
+        /* DISEÑO ESPECIAL PARA LOS HITOS */
+        .hito-card {
+            background: linear-gradient(to right, #151515, #111);
+            border: 1px solid var(--accent);
+            border-left: 5px solid var(--accent);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .hito-card .expo-year { color: var(--text-main); font-size: 1.2rem; margin-bottom: 0.5rem; display: block;}
+        .hito-card h4 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 0.5rem; }
+        .hito-card p { font-size: 1rem; color: var(--text-main); line-height: 1.7; text-align: justify; margin-bottom: 1rem; }
+        
+        /* PRENSA */
+        .press-card {
+            background: #111;
+            border: 1px solid #333;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .press-card h4 { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); margin-bottom: 1rem; }
+        .press-card p { font-size: 1rem; color: var(--text-main); font-style: italic; margin-bottom: 1.5rem; }
+        .btn-press {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-press:hover { background: var(--accent); color: var(--bg-color); }
 
         /* BOTONES GENERALES */
         .btn { display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; transition: all 0.3s ease; cursor: pointer; background: transparent; font-family: var(--font-sans); }
@@ -248,15 +319,16 @@
         }
         .credits strong { color: var(--accent); font-weight: 600; }
 
-        /* ══════════════════════════════════════════════════ */
-        /* MEDIA QUERIES PARA RESPONSIVE (TABLETS Y MÓVILES) */
-        /* ══════════════════════════════════════════════════ */
+        /* MEDIA QUERIES PARA RESPONSIVE */
         @media (max-width: 768px) {
+            .navbar { padding: 0.8rem; }
+            .navbar ul { gap: 1rem; }
+            .navbar a { font-size: 0.75rem; }
+            
             .bio-container { flex-direction: column; text-align: center; }
             .bio-photo { flex: 0 0 auto; width: 100%; max-width: 300px; height: auto; aspect-ratio: 4/5; margin: 0 auto; }
-            .fenix-text, .fenix-data, .gallery-invite-text, .mod-card p, .expo-details p { text-align: justify; } /* Asegurar justificado en móvil */
+            .fenix-text, .fenix-data, .gallery-invite-text, .mod-card p, .expo-details p, .hito-card p { text-align: justify; }
             
-            /* Ajustes del Botón Rococó en móvil */
             .btn-rococo {
                 font-size: 1.3rem;
                 padding: 1.2rem 1.5rem;
@@ -264,9 +336,7 @@
                 width: 100%;
                 box-sizing: border-box;
             }
-            .btn-rococo::before, .btn-rococo::after {
-                display: none; /* Ocultar adornos para que no se empimen en pantallas pequeñas */
-            }
+            .btn-rococo::before, .btn-rococo::after { display: none; }
             
             .gallery-invite-box { padding: 2rem 1.5rem; }
             .expo-list li { flex-direction: column; gap: 0.5rem; }
@@ -275,12 +345,12 @@
 
         /* ESTILOS PARA IMPRESIÓN Y PDF */
         @media print {
-            body { background: #fff; color: #000; }
-            header, section, footer { padding: 1rem 0; border: none; background: #fff !important; max-width: 100%; }
-            .audio-controls, .top-actions, .btn, .whatsapp-btn, .btn-rococo { display: none !important; }
-            .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year { color: #000 !important; }
-            .fenix-text, .fenix-data, .mod-card p, .expo-details p { color: #333 !important; }
-            .mod-card { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
+            body { background: #fff; color: #000; padding-top: 0; }
+            .navbar, header, .audio-controls, .top-actions, .btn, .whatsapp-btn, .btn-rococo { display: none !important; }
+            section { padding: 1rem 0; border: none; background: #fff !important; max-width: 100%; }
+            .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year, .hito-card h4 { color: #000 !important; }
+            .fenix-text, .fenix-data, .mod-card p, .expo-details p, .hito-card p, .press-card p { color: #333 !important; }
+            .mod-card, .hito-card, .press-card { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
             .bio-photo { border: 1px solid #000; }
             .expo-list li { border-bottom: 1px solid #ccc; }
             .credits { color: #000; border-top: 1px solid #000; }
@@ -289,6 +359,20 @@
     </style>
 </head>
 <body>
+
+    <!-- MENÚ DE NAVEGACIÓN FIJO -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#statement">Statement</a></li>
+            <li><a href="#remembranza">Remembranza</a></li>
+            <li><a href="#metapareidolia">Metapareidolia</a></li>
+            <li><a href="#manifiesto">Manifiesto</a></li>
+            <li><a href="#propuestas">Propuestas</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#trayectoria">Trayectoria</a></li>
+            <li><a href="#prensa">Prensa</a></li>
+        </ul>
+    </nav>
 
     <!-- HERO / PRESENTACIÓN FORMAL -->
     <header>
@@ -306,143 +390,182 @@
         </div>
     </header>
 
-    <!-- 1. REMEMBRANZA -->
-    <section class="fade-in">
-        <h2 class="section-title" id="title-sec1">Remembranza</h2>
+    <!-- STATEMENT -->
+    <section id="statement" class="fade-in">
+        <h2 class="section-title" id="title-sec0">Statement</h2>
         <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1', 'title-sec1', this)">🎤 Escuchar esta sección</button>
+            <button class="btn-audio" id="btn-sec0" data-text="Escuchar esta sección" onclick="toggleRead('sec-0', 'title-sec0', this)">🎤 Escuchar esta sección</button>
         </div>
         
-        <div class="bio-container" id="sec-1">
-            <!-- FOTO DEL CURRÍCULUM (Reemplazar si es necesario) -->
-            <div class="bio-photo">
-                <img src="https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg" alt="Juan Carlos Pérez Martínez">
-            </div>
-            
-            <div class="bio-text">
-                <p class="fenix-text">
-                    <strong>La escena:</strong> A los cuarenta años, la mayoría de la gente busca estabilidad. Yo busqué un lienzo. Nací en México D.F. en 1969, pero fue en Querétaro, frente a la decisión de terminar mis estudios de bachillerato, donde entendí que mi vida no podía seguir alejada de las artes. Dejé atrás una trayectoria en el sector comercial para dedicarme de lleno a la producción artística. 
-                </p>
-                <div class="fenix-data">
-                    <strong>El dato:</strong> Soy Licenciado en Artes Visuales por la Universidad de las Artes de Aguascalientes (2019), con formación en pintura, fotografía, grabado y escultura. Como ingeniero full-stack y artista visual, he fusionado el rigor técnico con la sensibilidad plástica, lo que me ha permitido desarrollar un método propio de investigación pictórica.
-                </div>
-                <p class="fenix-text">
-                    <strong>La puerta abierta:</strong> El arte no es solo una elección estética; es una herramienta para mirar hacia adentro. Mi obra no busca decorar paredes, busca abrir puertas al inconsciente de quien se atreve a mirar.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 2. LA METAPAREIDOLIA -->
-    <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
-        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec2">¿Qué es la Metapareidolia Pictórica?</h2>
-            <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2', 'title-sec2', this)">🎤 Escuchar esta sección</button>
-            </div>
-            
-            <div id="sec-2">
-                <p class="fenix-text">
-                    <strong>La escena:</strong> Estás frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que te observa. No está ahí, pero tu mente acaba de crearla. Y de repente, esa mancha te dice algo que no sabías que traías dentro.
-                </p>
-                <div class="fenix-data">
-                    <strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada a lo largo de 12 años que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como un disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y transformar al espectador en testigo de su propio inconsciente.
-                </div>
-                <p class="fenix-text">
-                    <strong>La puerta abierta:</strong> Esta técnica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. EL METAMANIFIESTO -->
-    <section class="fade-in">
-        <h2 class="section-title" id="title-sec3">El Metamanifiesto</h2>
-        <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3', 'title-sec3', this)">🎤 Escuchar esta sección</button>
-        </div>
-
-        <div id="sec-3">
+        <div id="sec-0">
             <p class="fenix-text">
-                <strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error, se convirtió en método. Doce años después, ese método es una teoría completa que ha sido documentada y blindada.
+                <strong>La escena:</strong> Durante años me dijeron que el arte y la técnica eran mundos opuestos. Yo descubrí que ambos son lenguajes de creación: uno construye sistemas, el otro los descompone para encontrar la verdad que se esconde en el caos. La Metapareidolia Pictórica es el punto exacto donde la precisión se encuentra con la intuición pura.
             </p>
             <div class="fenix-data">
-                <strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona del origen de la técnica. El Libro Segundo es el aparato científico: un riguroso compendio de fichas con citas neurocientíficas verificadas, el área fusiforme facial, videos y cursos. Es la base teórica de la obra.
+                <strong>El dato:</strong> No pinto para decorar paredes. Pinto para construir un dispositivo que obligue a quien lo mira a enfrentarse a su propio inconsciente. El arte, como cualquier sistema, solo funciona si hay alguien al otro lado dispuesto a interactuar.
             </div>
             <p class="fenix-text">
-                <strong>La puerta abierta:</strong> Este preestreno en el MUCAL es la presentación oficial al mundo. Es el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.
+                <strong>La puerta abierta:</strong> Mi obra no pide admiración; pide presencia. Porque en el fondo, el arte no es lo que está en el lienzo, sino lo que despierta en quien se atreve a mirarlo.
             </p>
         </div>
     </section>
 
-    <!-- 4. PROPUESTAS MODULARES -->
-    <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+    <!-- REMEMBRANZA -->
+    <section id="remembranza" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec4">Propuestas de Colaboración</h2>
+            <h2 class="section-title" id="title-sec1">Remembranza</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4', 'title-sec4', this)">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec1" data-text="Escuchar esta sección" onclick="toggleRead('sec-1', 'title-sec1', this)">🎤 Escuchar esta sección</button>
             </div>
-
-            <div class="modular-grid" id="sec-4">
-                <div class="mod-card">
-                    <span class="tag">Módulo Esencial</span>
-                    <h3>01. La Pintura</h3>
-                    <p>Montaje de la serie pictórica original. No requiere de tecnología adicional ni de personal extra. Es la exposición en su forma más pura.</p>
+            
+            <div class="bio-container" id="sec-1">
+                <!-- FOTO DEL DRIVE (Transformada para visualización directa) -->
+                <div class="bio-photo">
+                    <img src="https://drive.google.com/uc?export=view&id=1YmI8f1UXiHL3AQkp3KiNzO-aevOSJ4Sa" alt="Juan Carlos Pérez Martínez" onerror="this.src='https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg';">
                 </div>
-                <div class="mod-card">
-                    <span class="tag">Módulo Teórico</span>
-                    <h3>02. El Manifiesto</h3>
-                    <p>Instalación de una estación de consulta (tablet o computadora) o mesa de lectura con el libro impreso para explorar el corpus científico.</p>
-                </div>
-                <div class="mod-card">
-                    <span class="tag">Módulo Sensorial</span>
-                    <h3>03. La Inmersión Sonora</h3>
-                    <p>Paisaje neuroacústico (música clásica + ondas Theta y Solfeggio). Requiere solo de una bocina y un reproductor. Si no se desea audio, se omite.</p>
-                </div>
-                <div class="mod-card">
-                    <span class="tag">Módulo Interactivo</span>
-                    <h3>04. El Archivo Vivo</h3>
-                    <p>Juego de agudeza visual vía WhatsApp. Cero costo de infraestructura para el museo. Beneficio: recolección de base de datos y fidelización del cliente.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. GALERÍA DE ARTE (Movida justo después de las propuestas) -->
-    <section class="fade-in">
-        <h2 class="section-title" id="title-sec5">Galería de Arte Virtual</h2>
-        <div class="audio-controls">
-            <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', 'title-sec5', this)">🎤 Escuchar esta sección</button>
-        </div>
-
-        <div id="sec-5">
-            <div class="gallery-invite-box">
-                <h3 class="gallery-invite-title">¿Quieres ver cómo es una Metapareidolia en vivo?</h3>
-                <p class="gallery-invite-text">
-                    No te quedes con la curiosidad. Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir en el caos. <strong>Accede a nuestra galería de arte virtual y conoce el arte que producimos.</strong> Ahí mismo podrás explorar nuestra colección actual, titulada <em>«La metáfora errónea del inconsciente»</em>. 
-                    <br><br>
-                    Sin embargo, para esta exposición en el MUCAL, <strong>pretendemos crear obras nuevas</strong> diseñadas específicamente para su espacio, elevando la experiencia que estás a punto de ver.
-                </p>
                 
-                <!-- BOTÓN ROCOCÓ -->
-                <div class="rococo-container">
-                    <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
-                        Entrar a la Galería
-                    </a>
+                <div class="bio-text">
+                    <p class="fenix-text">
+                        <strong>La escena:</strong> A los cuarenta años, la mayoría de la gente busca estabilidad. Yo busqué un lienzo. Nací en México D.F. en 1969, pero fue en Querétaro, frente a la decisión de terminar mis estudios de bachillerato, donde entendí que mi vida no podía seguir alejada de las artes. Dejé atrás una trayectoria en el sector comercial para dedicarme de lleno a la producción artística. 
+                    </p>
+                    <div class="fenix-data">
+                        <strong>El dato:</strong> Soy Licenciado en Artes Visuales por la Universidad de las Artes de Aguascalientes (2019), con formación en pintura, fotografía, grabado y escultura. Como ingeniero full-stack y artista visual, he fusionado el rigor técnico con la sensibilidad plástica, lo que me ha permitido desarrollar un método propio de investigación pictórica.
+                    </div>
+                    <p class="fenix-text">
+                        <strong>La puerta abierta:</strong> El arte no es solo una elección estética; es una herramienta para mirar hacia adentro. Mi obra no busca decorar paredes, busca abrir puertas al inconsciente de quien se atreve a mirar.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. EXPOSICIONES -->
-    <section class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+    <!-- METAPAREIDOLIA -->
+    <section id="metapareidolia" class="fade-in">
+        <h2 class="section-title" id="title-sec2">¿Qué es la Metapareidolia Pictórica?</h2>
+        <div class="audio-controls">
+            <button class="btn-audio" id="btn-sec2" data-text="Escuchar esta sección" onclick="toggleRead('sec-2', 'title-sec2', this)">🎤 Escuchar esta sección</button>
+        </div>
+        
+        <div id="sec-2">
+            <p class="fenix-text">
+                <strong>La escena:</strong> Estás frente a un lienzo. No hay paisajes, no hay rostros. Solo capas de pintura, cintas arrancadas y barridos que parecen no tener orden. De pronto, en el caos, aparece una forma. Un ojo. Una silueta que te observa. No está ahí, pero tu mente acaba de crearla. Y de repente, esa mancha te dice algo que no sabías que traías dentro.
+            </p>
+            <div class="fenix-data">
+                <strong>El dato:</strong> La Metapareidolia Pictórica es abstraccionismo proyectivo. Una técnica desarrollada a lo largo de 12 años que utiliza el "caos controlado" (capas, cintas al azar, barridos y sustracción) como un disparador neuro-visual. No es una pintura para ser admirada; es un dispositivo de interacción cognitiva diseñado para activar la pareidolia y transformar al espectador en testigo de su propio inconsciente.
+            </div>
+            <p class="fenix-text">
+                <strong>La puerta abierta:</strong> Esta técnica no pide al público que entienda la pintura. Le ofrece una condición: detenerse, mirar y descubrir que dentro del caos hay una imagen esperándolo. Porque no es la obra la que te mira: es tu inconsciente el que aparece.
+            </p>
+        </div>
+    </section>
+
+    <!-- EL METAMANIFIESTO -->
+    <section id="manifiesto" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec6">Trayectoria Expositiva</h2>
+            <h2 class="section-title" id="title-sec3">El Metamanifiesto</h2>
             <div class="audio-controls">
-                <button class="btn-audio" id="btn-sec6" data-text="Escuchar esta sección" onclick="toggleRead('sec-6', 'title-sec6', this)">🎤 Escuchar esta sección</button>
+                <button class="btn-audio" id="btn-sec3" data-text="Escuchar esta sección" onclick="toggleRead('sec-3', 'title-sec3', this)">🎤 Escuchar esta sección</button>
             </div>
 
-            <ul class="expo-list" id="sec-6">
+            <div id="sec-3">
+                <p class="fenix-text">
+                    <strong>La escena:</strong> Nació en un salón de clases de la Universidad de las Artes, ante la escasez de recursos. Al no haber lienzos nuevos, hubo que pintar sobre obras ya pintadas. Lo que parecía un error, se convirtió en método. Doce años después, ese método es una teoría completa que ha sido documentada y blindada.
+                </p>
+                <div class="fenix-data">
+                    <strong>El dato:</strong> El Metamanifiesto es un documento transmedia en dos libros. El Libro Primero es el relato en primera persona del origen de la técnica. El Libro Segundo es el aparato científico: un riguroso compendio de fichas con citas neurocientíficas verificadas, el área fusiforme facial, videos y cursos. Es la base teórica de la obra.
+                </div>
+                <p class="fenix-text">
+                    <strong>La puerta abierta:</strong> Este preestreno en el MUCAL es la presentación oficial al mundo. Es el momento en que la teoría sale del laboratorio y se encuentra con los ojos del espectador.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROPUESTAS MODULARES -->
+    <section id="propuestas" class="fade-in">
+        <h2 class="section-title" id="title-sec4">Propuestas de Colaboración</h2>
+        <div class="audio-controls">
+            <button class="btn-audio" id="btn-sec4" data-text="Escuchar esta sección" onclick="toggleRead('sec-4', 'title-sec4', this)">🎤 Escuchar esta sección</button>
+        </div>
+
+        <div class="modular-grid" id="sec-4">
+            <div class="mod-card">
+                <span class="tag">Módulo Esencial</span>
+                <h3>01. La Pintura</h3>
+                <p>Montaje de la serie pictórica original. No requiere de tecnología adicional ni de personal extra. Es la exposición en su forma más pura.</p>
+            </div>
+            <div class="mod-card">
+                <span class="tag">Módulo Teórico</span>
+                <h3>02. El Manifiesto</h3>
+                <p>Instalación de una estación de consulta (tablet o computadora) o mesa de lectura con el libro impreso para explorar el corpus científico.</p>
+            </div>
+            <div class="mod-card">
+                <span class="tag">Módulo Sensorial</span>
+                <h3>03. La Inmersión Sonora</h3>
+                <p>Paisaje neuroacústico (música clásica + ondas Theta y Solfeggio). Requiere solo de una bocina y un reproductor. Si no se desea audio, se omite.</p>
+            </div>
+            <div class="mod-card">
+                <span class="tag">Módulo Interactivo</span>
+                <h3>04. El Archivo Vivo</h3>
+                <p>Juego de agudeza visual vía WhatsApp. Cero costo de infraestructura para el museo. Beneficio: recolección de base de datos y fidelización del cliente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERÍA DE ARTE -->
+    <section id="galeria" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+            <h2 class="section-title" id="title-sec5">Galería de Arte Virtual</h2>
+            <div class="audio-controls">
+                <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', 'title-sec5', this)">🎤 Escuchar esta sección</button>
+            </div>
+
+            <div id="sec-5">
+                <div class="gallery-invite-box">
+                    <h3 class="gallery-invite-title">El Nacimiento de la Obra</h3>
+                    <p class="gallery-invite-text">
+                        <strong>La escena:</strong> Imagina una pared vacía. La luz está puesta, el silencio es total. De pronto, se corta el listón y entran los primeros visitantes. En ese instante exacto, frente a sus ojos, la obra cobra vida. Para mí, una pintura no nace en el taller del artista; <strong>nace en el momento en que se inaugura una exposición.</strong> Es ahí, cuando el público la mira por primera vez, donde la obra respira y se consolida. Antes de eso, solo es un lienzo esperando a que alguien le dé un significado.
+                        <br><br>
+                        <strong>El dato:</strong> Las obras que verás en nuestra galería virtual ya son adultas. Ya nacieron. Han sido expuestas, interpretadas y llevan años dialogando con el público en distintos museos y galerías. Tienen una historia propia. Por eso, para esta exposición en el MUCAL, <strong>no quiero traerte obras que ya han vivido.</strong> Quiero que tus paredes sean la cuna de algo completamente virgen.
+                        <br><br>
+                        <strong>La puerta abierta:</strong> Te invito a entrar a la galería virtual, pero no para que veas lo que voy a colgar en tu museo, sino para que conozcas <strong>el laboratorio donde he perfeccionado el caos.</strong> Lo que estás a punto de ver es la prueba de mi técnica. Para tu recinto, voy a crear <strong>piezas exclusivas</strong>. Obras nuevas, diseñadas desde cero, que nacerán el día que inauguremos juntos la exposición. Serán creadas para dialogar con la luz de tu galería, con la arquitectura de tu espacio y con el inconsciente de tus visitantes.
+                        <br><br>
+                        <em>Entra, conoce mi arte y mi historia. Pero prepárate, porque lo que vamos a crear para ti será un capítulo que nadie más va a tener.</em>
+                    </p>
+                    
+                    <div class="rococo-container">
+                        <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
+                            Entrar a la Galería
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRAYECTORIA EXPOSITIVA -->
+    <section id="trayectoria" class="fade-in">
+        <h2 class="section-title" id="title-sec6">Trayectoria Expositiva</h2>
+        <div class="audio-controls">
+            <button class="btn-audio" id="btn-sec6" data-text="Escuchar esta sección" onclick="toggleRead('sec-6', 'title-sec6', this)">🎤 Escuchar esta sección</button>
+        </div>
+
+        <div id="sec-6">
+            <!-- HITOS DESTACADOS -->
+            <div class="hito-card">
+                <span class="expo-year">2016 | Hito Histórico</span>
+                <h4>Museo Espacio (MECA) — Inauguración con Jannis Kounellis</h4>
+                <p>Inauguración del recinto cultural más importante de Aguascalientes. En paralelo a la exposición internacional <em>"Relámpagos sobre México"</em> del maestro del Arte Povera, Jannis Kounellis (quien ocupó más de 6,000 m²), presenté mi exposición individual <strong>"Ángeles del inconsciente" (Caja de Inmersión)</strong>. Además, participé en el simposio internacional <strong>"El drama de la forma"</strong>, compartiendo escenario con 15 especialistas de artes visuales a nivel mundial.</p>
+            </div>
+
+            <div class="hito-card">
+                <span class="expo-year">2015 | Hito Internacional</span>
+                <h4>Museo Descubre — Exposición en paralelo a Leonardo da Vinci</h4>
+                <p>Presentación de mi exposición individual de fotografía <strong>"Etnias"</strong> en el principal museo de ciencia y tecnología del estado. La muestra coincidió con la exposición <em>"Vida y Obra de Leonardo da Vinci"</em>, que trajo desde Milán 64 inventos y 17 códices, atrayendo a más de 13,000 visitantes.</p>
+            </div>
+
+            <!-- RESTO DE LA TRAYECTORIA -->
+            <ul class="expo-list" style="margin-top: 3rem;">
                 <li>
                     <div class="expo-year">2017</div>
                     <div class="expo-details">
@@ -455,20 +578,6 @@
                     <div class="expo-details">
                         <h4>“Vorágine” (Dioses de la Pareidolia)</h4>
                         <p>Exposición colectiva. Galería de la Ciudad, Casa de la Cultura Víctor Sandoval, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2016</div>
-                    <div class="expo-details">
-                        <h4>“Ángeles del inconsciente” (Caja de Inmersión)</h4>
-                        <p>Exposición individual en paralelo a la exposición de Jannis Kounellis. MECA, Aguascalientes.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="expo-year">2015</div>
-                    <div class="expo-details">
-                        <h4>“Etnias”</h4>
-                        <p>Exposición individual de fotografía en paralelo a la exposición de Leonardo da Vinci. Museo Descubre, Aguascalientes.</p>
                     </div>
                 </li>
                 <li>
@@ -500,6 +609,25 @@
                     </div>
                 </li>
             </ul>
+        </div>
+    </section>
+
+    <!-- PRENSA -->
+    <section id="prensa" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
+            <h2 class="section-title" id="title-sec7">Prensa</h2>
+            <div class="audio-controls">
+                <button class="btn-audio" id="btn-sec7" data-text="Escuchar esta sección" onclick="toggleRead('sec-7', 'title-sec7', this)">🎤 Escuchar esta sección</button>
+            </div>
+
+            <div id="sec-7">
+                <div class="press-card">
+                    <h4>"Crea Juan Carlos Pérez obra de arte para hablar con el inconsciente"</h4>
+                    <p>“Su actual trabajo de investigación pictórica, propone una técnica diferente de observación de la obra plástica de su autoría. Para poder hacer una reflexión mediante un método nuevo que lleva el nombre de El Método Celidiano...”</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">— Jorge Luis Heredia, 30 de septiembre de 2017</p>
+                    <a href="http://findesemanaags.blogspot.com/2017/09/crea-juan-carlos-perez-obra-de-arte.html" target="_blank" class="btn-press">Leer entrevista completa</a>
+                </div>
+            </div>
         </div>
     </section>
 
