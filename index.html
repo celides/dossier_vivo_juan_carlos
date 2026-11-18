@@ -201,6 +201,43 @@
             text-align: justify;
         }
 
+        /* GRID DE OBRAS EN GALERÍA */
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .art-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .art-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .art-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid #222;
+        }
+        .art-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .art-info h4 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .art-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
         /* BOTÓN ROCOCÓ */
         .rococo-container { text-align: center; }
         .btn-rococo {
@@ -319,6 +356,9 @@
         }
         .credits strong { color: var(--accent); font-weight: 600; }
 
+        /* PORTADA EXCLUSIVA PARA PDF (Oculta en pantalla) */
+        .print-cover { display: none; }
+
         /* MEDIA QUERIES PARA RESPONSIVE */
         @media (max-width: 768px) {
             .navbar { padding: 0.8rem; }
@@ -346,19 +386,74 @@
         /* ESTILOS PARA IMPRESIÓN Y PDF */
         @media print {
             body { background: #fff; color: #000; padding-top: 0; }
-            .navbar, header, .audio-controls, .top-actions, .btn, .whatsapp-btn, .btn-rococo { display: none !important; }
+            .navbar, header, .audio-controls, .top-actions, .btn, .whatsapp-btn, .btn-rococo, footer .credits, footer .whatsapp-btn { display: none !important; }
             section { padding: 1rem 0; border: none; background: #fff !important; max-width: 100%; }
-            .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year, .hito-card h4 { color: #000 !important; }
-            .fenix-text, .fenix-data, .mod-card p, .expo-details p, .hito-card p, .press-card p { color: #333 !important; }
-            .mod-card, .hito-card, .press-card { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
+            .section-title, .tagline, .fenix-text strong, .dedicatoria strong, .expo-year, .hito-card h4, .art-info h4 { color: #000 !important; }
+            .fenix-text, .fenix-data, .mod-card p, .expo-details p, .hito-card p, .press-card p, .art-info p { color: #333 !important; }
+            .mod-card, .hito-card, .press-card, .art-card, .gallery-invite-box { border: 1px solid #ccc; background: #fff; break-inside: avoid; }
             .bio-photo { border: 1px solid #000; }
             .expo-list li { border-bottom: 1px solid #ccc; }
-            .credits { color: #000; border-top: 1px solid #000; }
             .gallery-invite-box { border: 1px solid #000; background: #fff; }
+            
+            /* MOSTRAR PORTADA DEL PDF */
+            .print-cover {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                text-align: center;
+                page-break-after: always;
+                padding: 2rem;
+            }
+            .print-cover h1 {
+                font-family: var(--font-serif);
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                color: #000;
+            }
+            .print-cover h2 {
+                font-family: var(--font-sans);
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: #555;
+                margin-bottom: 3rem;
+            }
+            .print-cover img {
+                width: 350px;
+                height: 350px;
+                margin-bottom: 2rem;
+                border: 5px solid #000;
+                padding: 10px;
+            }
+            .print-cover p {
+                font-size: 1.1rem;
+                color: #333;
+                max-width: 600px;
+                line-height: 1.6;
+                margin-bottom: 1rem;
+            }
+            .print-cover .highlight {
+                font-weight: bold;
+                color: #000;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- PORTADA EXCLUSIVA PARA PDF (No se ve en la web) -->
+    <div class="print-cover">
+        <h1>El Dossier Vivo</h1>
+        <h2>Metapareidolia Pictórica</h2>
+        <p class="highlight">Este documento es solo el principio.</p>
+        <p>Las palabras y los conceptos pueden quedarse cortos ante lo que el ojo realmente puede descubrir. Para explorar la experiencia completa, los audios, las fichas y las obras en alta resolución:</p>
+        <img src="https://raw.githubusercontent.com/celides/dossier_vivo_juan_carlos/main/qr-code%20(dossier).png" alt="Código QR Dossier Vivo">
+        <p><strong>Escanea este código con tu celular</strong><br>y accede al Dossier Vivo en la web.</p>
+        <p style="margin-top: 3rem; font-size: 0.9rem; color: #666;">Juan Carlos Pérez Martínez | Para: Lic. Priscila Contreras Rivera (MUCAL)</p>
+    </div>
 
     <!-- MENÚ DE NAVEGACIÓN FIJO -->
     <nav class="navbar">
@@ -419,7 +514,6 @@
             </div>
             
             <div class="bio-container" id="sec-1">
-                <!-- FOTO DE GITHUB (Enlace Raw Directo) -->
                 <div class="bio-photo">
                     <img src="https://raw.githubusercontent.com/celides/dossier_vivo_juan_carlos/main/foto%20-%20juan%20-%20carlos.jpg" alt="Juan Carlos Pérez Martínez" onerror="this.src='https://i.postimg.cc/J4ySVWkS/Screenshot-20260523-151443-Gallery.jpg';">
                 </div>
@@ -512,10 +606,10 @@
         </div>
     </section>
 
-    <!-- GALERÍA DE ARTE -->
+    <!-- GALERÍA DE ARTE (LA METÁFORA ERRÓNEA DEL INCONSCIENTE) -->
     <section id="galeria" class="fade-in" style="background-color: #0c0c0c; max-width: 100%;">
         <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" id="title-sec5">Galería de Arte Virtual</h2>
+            <h2 class="section-title" id="title-sec5">La Metáfora Errónea del Inconsciente</h2>
             <div class="audio-controls">
                 <button class="btn-audio" id="btn-sec5" data-text="Escuchar esta sección" onclick="toggleRead('sec-5', 'title-sec5', this)">🎤 Escuchar esta sección</button>
             </div>
@@ -524,20 +618,78 @@
                 <div class="gallery-invite-box">
                     <h3 class="gallery-invite-title">El Nacimiento de la Obra</h3>
                     <p class="gallery-invite-text">
-                        <strong>La escena:</strong> Imagina una pared vacía. La luz está puesta, el silencio es total. De pronto, se corta el listón y entran los primeros visitantes. En ese instante exacto, frente a sus ojos, la obra cobra vida. Para mí, una pintura no nace en el taller del artista; <strong>nace en el momento en que se inaugura una exposición.</strong> Es ahí, cuando el público la mira por primera vez, donde la obra respira y se consolida. Antes de eso, solo es un lienzo esperando a que alguien le dé un significado.
+                        <strong>La escena:</strong> Imagina una pared vacía. La luz está puesta, el silencio es total. De pronto, se corta el listón y entran los primeros visitantes. En ese instante exacto, frente a sus ojos, la obra cobra vida. Para mí, una pintura no nace en el taller del artista; <strong>nace en el momento en que se inaugura una exposición.</strong> Es ahí, cuando el público la mira por primera vez, donde la obra respira y se consolida.
                         <br><br>
-                        <strong>El dato:</strong> Las obras que verás en nuestra galería virtual ya son adultas. Ya nacieron. Han sido expuestas, interpretadas y llevan años dialogando con el público en distintos museos y galerías. Tienen una historia propia. Por eso, para esta exposición en el MUCAL, <strong>no quiero traerte obras que ya han vivido.</strong> Quiero que tus paredes sean la cuna de algo completamente virgen.
+                        <strong>El dato:</strong> Las obras que verás a continuación ya son adultas. Ya nacieron. Han sido expuestas y llevan años dialogando con el público. Por eso, para esta exposición en el MUCAL, <strong>no quiero traerte obras que ya han vivido.</strong> Quiero que tus paredes sean la cuna de algo completamente virgen.
                         <br><br>
-                        <strong>La puerta abierta:</strong> Te invito a entrar a la galería virtual, pero no para que veas lo que voy a colgar en tu museo, sino para que conozcas <strong>el laboratorio donde he perfeccionado el caos.</strong> Lo que estás a punto de ver es la prueba de mi técnica. Para tu recinto, voy a crear <strong>piezas exclusivas</strong>. Obras nuevas, diseñadas desde cero, que nacerán el día que inauguremos juntos la exposición. Serán creadas para dialogar con la luz de tu galería, con la arquitectura de tu espacio y con el inconsciente de tus visitantes.
+                        <strong>La puerta abierta:</strong> Te invito a conocer <strong>el laboratorio donde he perfeccionado el caos.</strong> Lo que estás a punto de ver es la prueba de mi técnica. Para tu recinto, voy a crear <strong>piezas exclusivas</strong>. Obras nuevas, diseñadas desde cero, que nacerán el día que inauguremos juntos la exposición.
                         <br><br>
                         <em>Entra, conoce mi arte y mi historia. Pero prepárate, porque lo que vamos a crear para ti será un capítulo que nadie más va a tener.</em>
                     </p>
-                    
-                    <div class="rococo-container">
-                        <a href="https://metapareidolia-web.vercel.app/" target="_blank" class="btn-rococo">
-                            Entrar a la Galería
-                        </a>
+                </div>
+
+                <!-- GRID DE LAS 6 OBRAS -->
+                <div class="art-grid">
+                    <!-- Materia Oscura -->
+                    <div class="art-card">
+                        <img src="https://i.imgur.com/IGjsgRg.jpeg" alt="Materia Oscura del Oráculo Onírico">
+                        <div class="art-info">
+                            <h4>Materia Oscura del Oráculo Onírico</h4>
+                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
+                            <p>Técnica: Metapareidolia Pictórica</p>
+                        </div>
                     </div>
+                    <!-- Cartografía Áurica -->
+                    <div class="art-card">
+                        <img src="https://i.imgur.com/Y1mGq1V.jpeg" alt="Cartografía Áurica de la Huella Sublimada">
+                        <div class="art-info">
+                            <h4>Cartografía Áurica de la Huella Sublimada</h4>
+                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
+                            <p>Técnica: Metapareidolia Pictórica</p>
+                        </div>
+                    </div>
+                    <!-- Cripta de la Memoria -->
+                    <div class="art-card">
+                        <img src="https://i.imgur.com/c8JDZzm.jpeg" alt="Cripta de la Memoria Fractal">
+                        <div class="art-info">
+                            <h4>Cripta de la Memoria Fractal</h4>
+                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
+                            <p>Técnica: Metapareidolia Pictórica</p>
+                        </div>
+                    </div>
+                    <!-- Núcleo Sombrío -->
+                    <div class="art-card">
+                        <img src="https://i.imgur.com/elGInqm.jpeg" alt="Núcleo Sombrío de la Metamorfosis Áureo-Blanca">
+                        <div class="art-info">
+                            <h4>Núcleo Sombrío de la Metamorfosis Áureo-Blanca</h4>
+                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
+                            <p>Técnica: Metapareidolia Pictórica</p>
+                        </div>
+                    </div>
+                    <!-- Sismo Cromático -->
+                    <div class="art-card">
+                        <img src="https://i.imgur.com/qZ90DAc.jpeg" alt="Sismo Cromático de la Verdad Sumergida">
+                        <div class="art-info">
+                            <h4>Sismo Cromático de la Verdad Sumergida</h4>
+                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
+                            <p>Técnica: Metapareidolia Pictórica</p>
+                        </div>
+                    </div>
+                    <!-- Destilación del Caos -->
+                    <div class="art-card">
+                        <img src="https://i.imgur.com/hWLC8aq.jpeg" alt="Destilación del Caos en la Materia Primordial">
+                        <div class="art-info">
+                            <h4>Destilación del Caos en la Materia Primordial</h4>
+                            <p>Colección: La Metáfora Errónea del Inconsciente</p>
+                            <p>Técnica: Metapareidolia Pictórica</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rococo-container" style="margin-top: 3rem;">
+                    <a href="https://metapareidolia-web.vercel.app/#metafora-erronea" target="_blank" class="btn-rococo">
+                        Entrar a la Galería
+                    </a>
                 </div>
             </div>
         </div>
